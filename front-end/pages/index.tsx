@@ -1,7 +1,12 @@
 import Head from "next/head";
 import Header from "@components/header";
+import PopUp from "@components/PopUp";
+import { useState } from "react";
+import { use } from "i18next";
 
 const Home: React.FC = () => {
+    const [buttonPopUp, setButtonPopup] = useState(false)
+
     return (
         <>
             <Head>
@@ -16,6 +21,11 @@ const Home: React.FC = () => {
                     Discover our extensive selection of vehicles. We offer the best prices and a hassle-free shopping experience.
                     Whether you are looking for a new or used car, our team is here to help you find the perfect match.
                 </p>
+                <button onClick={() => setButtonPopup(true)}>Add car</button>
+                <PopUp trigger={buttonPopUp} setTrigger={setButtonPopup}>
+                    <p>Are you sure you want to add this car?</p>
+                    
+                </PopUp>
             </main>
         </>
     );
