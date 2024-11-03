@@ -3,12 +3,14 @@ import CarService from "../../services/CarService";
 import {Car} from "@types";
 import Head from "next/head";
 import Header from "@components/header";
+import PopUp from "@components/PopUp";
 import Home from "../index";
 import CarsOverviewTable from "@components/cars/CarsOverview";
 
 const Cars: React.FC = () => {
     const [cars, setCars] = useState<Array<Car>>([]);
     const [error, setError] = useState<string>();
+    const [buttonPopUp, setButtonPopup] = useState(false)
 
     useEffect(() => {
         getAllCars();
@@ -37,11 +39,16 @@ const Cars: React.FC = () => {
                     {cars && (
                         <>
                             <h2>Available cars</h2>
-                            <CarsOverviewTable cars={cars} />
+                            <CarsOverviewTable cars={cars} /><button onClick={() => setButtonPopup(true)}>Add car</button>
+                
                         </>
                     )}
                 </section>
             </main>
+            <PopUp trigger={buttonPopUp} setTrigger={setButtonPopup}>
+                    <p>Are you sure you want to add this car?</p>
+                    
+                </PopUp>
         </>
     )
 }

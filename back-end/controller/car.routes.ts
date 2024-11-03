@@ -16,7 +16,8 @@ carRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
 carRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const car = <CarInput>req.body;
-        await carService.addCar(req.body);
+        const result = await carService.addCar(req.body);
+        res.status(200).json(result)
     } catch (error){
         next(error)
     }
