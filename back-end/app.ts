@@ -4,6 +4,7 @@ import cors from 'cors';
 import * as bodyParser from 'body-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import {carRouter} from "./controller/car.routes";
 
 const app = express();
 dotenv.config();
@@ -12,7 +13,7 @@ const port = process.env.APP_PORT || 3000;
 app.use(cors({origin: 'http://localhost:8080'}));
 app.use(bodyParser.json());
 
-app.use('/cars', carRouter);
+app.use('/car_acquisition', carRouter);
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Back-end is running...' });
