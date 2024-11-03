@@ -23,7 +23,7 @@ const addCar = async (car: Car) => {
 }
 
 const CarService = {
-    getAllCars,
+    getAllCars,addCar,
 }
 
 export default CarService;

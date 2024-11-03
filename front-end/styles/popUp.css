@@ -19,7 +19,12 @@
 }
 
 .popup-inner .yes-btn{
-    position: absolute;
-    top: 16px;
-    right: 16px;
+    padding-right: 20px;
+    margin-right: 20px;
 }
+.popup-inner .no-btn{
+
+    padding-right: 20px;
+    margin-right: 20px;
+}
+

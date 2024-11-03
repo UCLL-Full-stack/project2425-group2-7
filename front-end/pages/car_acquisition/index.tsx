@@ -39,15 +39,15 @@ const Cars: React.FC = () => {
                     {cars && (
                         <>
                             <h2>Available cars</h2>
-                            <CarsOverviewTable cars={cars} /><button onClick={() => setButtonPopup(true)}>Add car</button>
+                            <CarsOverviewTable cars={cars} />
+                            <button onClick={() => setButtonPopup(true)} className="add-car-btn">Add new car</button>
                 
                         </>
                     )}
                 </section>
             </main>
             <PopUp trigger={buttonPopUp} setTrigger={setButtonPopup}>
-                    <p>Are you sure you want to add this car?</p>
-                    
+                    <p>Are you sure you want to add this car?</p> 
                 </PopUp>
         </>
     )
