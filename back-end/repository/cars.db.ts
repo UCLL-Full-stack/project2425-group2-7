@@ -1,8 +1,9 @@
 import { Car } from "../model/car";
+import {CarInput} from "../types";
 
 const cars: Car[] =[
     new Car({
-        chasisNumber: 12345,
+        chassisNumber: 12345,
         price: 20000,
         brand: "Toyota",
         model: "Corolla",
@@ -10,7 +11,7 @@ const cars: Car[] =[
         status: "IN_STOCK"
     }), 
     new Car({
-        chasisNumber: 12,
+        chassisNumber: 12,
         price: 30000,
         brand: "Toyota",
         model: "Camry",
@@ -22,6 +23,7 @@ const cars: Car[] =[
 
 const addCar = (car: Car) =>{
     cars.push(car);
+    return car;
 }
 const getAllCars = (): Car[] => {
     return cars;
