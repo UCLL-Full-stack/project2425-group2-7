@@ -15,7 +15,7 @@ const cars: Car[] =[
 const addCar = (car: Car) =>{
     cars.push(car);
 }
-const getAllCars = () => {
+const getAllCars = (): Car[] => {
     return cars;
 }
 
