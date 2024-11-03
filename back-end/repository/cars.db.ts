@@ -8,7 +8,7 @@ const car1: Car = new Car({
     condition: "New",
     status: "IN_STOCK"
 });
-const cars: Car[] = [];
+const cars: Car[] = [car1];
 
 const addCar = (car: Car) =>{
     cars.push(car);

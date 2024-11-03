@@ -2,6 +2,7 @@ import {Car} from "@types";
 
 const getAllCars = async () => {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL + "/car_acquisition";
+    console.log(apiUrl);
 
     return fetch(apiUrl, {
         method: "GET",
