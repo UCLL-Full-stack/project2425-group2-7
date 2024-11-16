@@ -10,8 +10,13 @@ type CarInput = {
     status: Status;
 }
 
+type Type = 'Purchase'| 'Sale' | 'Trade';
+type Tier = 'Bronze' | 'Silver' | 'Gold' | 'Platinum';
 export {
     CarInput,
     Status,
+    Type,
+    Tier,
 }
+
 

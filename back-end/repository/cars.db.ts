@@ -1,32 +1,20 @@
 import { Car } from "../model/car";
 import {CarInput} from "../types";
+import database from "./database";
 
-const cars: Car[] =[
-    new Car({
-        chassisNumber: 12345,
-        price: 20000,
-        brand: "Toyota",
-        model: "Corolla",
-        condition: "New",
-        status: "IN_STOCK"
-    }), 
-    new Car({
-        chassisNumber: 12,
-        price: 30000,
-        brand: "Toyota",
-        model: "Camry",
-        condition: "New",
-        status: "IN_STOCK"
-    })
-
-];
+const cars: Car[] =[];
 
 const addCar = (car: Car) =>{
     cars.push(car);
     return car;
 }
-const getAllCars = (): Car[] => {
-    return cars;
+const getAllCars = async (): Promise<Car[]> => {
+    try {
+        const carsPrisma = await database.car.findMany()
+        return carsPrisma.map((car) => Car.from(car));
+    } catch(error) {
+        throw new Error("Problem with fetching in repository")
+    }
 }
 
 export default {

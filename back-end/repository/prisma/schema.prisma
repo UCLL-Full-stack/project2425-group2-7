@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Tier {
+  BRONZE
+  SILVER
+  GOLD
+  PLATINUM
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Car {
+  id            Int          @id @unique @default(autoincrement())
+  chassisNumber Int          @unique
+  price         Int
+  brand         String
+  model         String
+  condition     String
+  status        String
+  Customer      Customer?    @relation(fields: [customerId], references: [id])
+  customerId    Int?
+  transaction   Transaction? @relation(fields: [transactionId], references: [id])
+  transactionId Int?
+}
+
+model LoyaltyCard {
+  id                 Int      @id @default(autoincrement())
+  points             Int
+  tier               Tier
+  discountPercentage Int
+  validity           DateTime
+  totalSpent         Int
+  customer           Customer @relation(fields: [customerId], references: [id])
+  customerId         Int      @unique
+}
+
+model Transaction {
+  id         Int      @id @default(autoincrement())
+  type       String
+  date       DateTime
+  cars       Car[]
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId Int
+}
+
+model Customer {
+  id              Int           @id @default(autoincrement())
+  name            String
+  email           String
+  loyaltyCard     LoyaltyCard?
+  purchaseHistory Transaction[]
+  cars            Car[]
+}

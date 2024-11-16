@@ -15,7 +15,6 @@ const Cars: React.FC = () => {
     useEffect(() => {
         getAllCars();
     }, []);
-
     const getAllCars = async () => {
         setError("");
         const response = await CarService.getAllCars();
@@ -26,6 +25,7 @@ const Cars: React.FC = () => {
             const cars = await response.json();
             setCars(cars);
         }
+
     } // all this above fetches cars from the in-memory db (CarService fetch -> CarService backend -> CarRepo) and if response ok then transform to json and
     // setCars(cars) to use as Prop for CarsOverview component (which is the table)
     return (
