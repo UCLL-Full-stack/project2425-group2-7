@@ -1,10 +1,13 @@
 import {
-    Car as CarPrisma, Customer as CustomerPrisma,
+    Car as CarPrisma,
+    Customer as CustomerPrisma,
     Transaction as TransactionPrisma,
+    LoyaltyCard as LoyaltyCardPrisma,
 } from '@prisma/client';
 import {Car} from "./car";
 import {Type} from "../types";
 import {Customer} from "./customer";
+import {LoyaltyCard} from "./loyaltyCard";
 export class Transaction{
     private id?: number;
     private type: Type;
@@ -13,13 +16,13 @@ export class Transaction{
     private customer: Customer;
 
 
-    static from ({id, type, date, cars=[], customer}: TransactionPrisma & {cars: CarPrisma[], customer: CustomerPrisma}) {
+    static from ({id, type, date, cars=[], customer}: TransactionPrisma & {cars: CarPrisma[], customer: CustomerPrisma & {loyaltyCard: LoyaltyCardPrisma | null, cars: CarPrisma[]}}) {
         return new Transaction({id,
             type: type as Type,
             date,
-            cars: cars.map((car) => Car.from(car))},
-            customer: Customer.from(customer);
-        )
+            cars: cars.map((car) => Car.from(car)),
+            customer: Customer.from(customer)}
+        );
     }
     constructor(transaction:{id?: number, type: Type,date:Date, cars: Car[], customer: Customer}){
         this.id = transaction.id;
@@ -40,6 +43,10 @@ export class Transaction{
 
     getCar(): Array<Car>{
         return this.cars;
+    }
+
+    getCustomer(): Customer{
+        return this.customer;
     }
 
 }

@@ -5,7 +5,6 @@ import {
     LoyaltyCard as LoyaltyCardPrisma,
     Car as CarPrisma,
     Customer as CustomerPrisma,
-    Transaction as TransactionPrisma,
 } from '@prisma/client';
 export class Customer{
     private id?: number;
@@ -15,18 +14,29 @@ export class Customer{
     private purchaseHistory: Transaction[];
     private cars?: Car[] ;
 
-    static from ({id, name, email, loyaltyCard, purchaseHistory, cars}: CustomerPrisma & { loyaltyCard: LoyaltyCardPrisma, purchaseHistory: TransactionPrisma[], cars: CarPrisma[]}) {
-        return new Customer({
-            id,
-            name,
-            email,
-            loyaltyCard: LoyaltyCard.from(loyaltyCard),
-            purchaseHistory: purchaseHistory.map((transaction: TransactionPrisma) => Transaction.from(transaction)),
-            cars: cars.map((car) => Car.from(car))
-        });
+    static from ({id, name, email, loyaltyCard,  cars}: CustomerPrisma & { loyaltyCard: LoyaltyCardPrisma | null,  cars: CarPrisma[]}) {
+        // if loyaltycardprisma is null create customer without loyaltycard else with
+        if (!loyaltyCard)
+        {
+            return new Customer({
+                id,
+                name,
+                email,
+                loyaltyCard: undefined,
+                cars: cars.map((car) => Car.from(car))
+            });
+        } else {
+            return new Customer({
+                id,
+                name,
+                email,
+                loyaltyCard: LoyaltyCard.from(loyaltyCard),
+                cars: cars.map((car) => Car.from(car)),
+            })
+        }
     }
 
-    constructor(customer: {id?: number, name: string, email: string, loyaltyCard?: LoyaltyCard, purchaseHistory?: Transaction[], cars?: Car[]}) {
+    constructor(customer: {id?: number, name: string, email: string, loyaltyCard?: LoyaltyCard,  cars?: Car[]}) {
         this.id = customer.id;
         this.name = customer.name;
         this.email = customer.email;

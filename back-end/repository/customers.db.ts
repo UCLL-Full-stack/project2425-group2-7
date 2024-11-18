@@ -1,11 +1,12 @@
-import {Customer} from "@prisma/client";
+import {Customer} from "../model/customer";
 import database from "./database";
 
 const getAllCustomers = async (): Promise<Customer[]> => {
     try {
-        return await database.customer.findMany({
-            include: {loyaltyCard: true}
+        const customers = await database.customer.findMany({
+            include: {loyaltyCard: true, cars: true}
         })
+        return customers.map((customer) => Customer.from(customer));
     } catch(error) {
         throw new Error("Problem with fetching in repository")
     }
