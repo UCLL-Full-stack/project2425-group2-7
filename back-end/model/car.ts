@@ -25,6 +25,18 @@ export class Car{
         this.status = car.status
     }
 
+    validate(car: {
+        chassisNumber: number,
+        price: number,
+        brand: string,
+        model: string,
+        condition: string,
+        status: Status}){
+        if (car.price < 0) {
+            throw new Error("Car price cannot be negative")
+        }
+    }
+
     getId(): number | undefined{
         return this.id;
     }

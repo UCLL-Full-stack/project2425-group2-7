@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import carService from '../service/car.service';
 import {CarInput} from "../types";
 
@@ -75,7 +75,7 @@ const carRouter = express.Router();
  */
 carRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const cars = carService.getAllCars();
+        const cars = await carService.getAllCars();
         res.status(200).json(cars);
     } catch (error) {
         next(error);
@@ -105,7 +105,7 @@ carRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
 carRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const car = <CarInput>req.body;
-        const result = await carService.addCar(car);
+        const result = carService.addCar(car);
         res.status(200).json(result)
     } catch (error){
         next(error)

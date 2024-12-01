@@ -6,9 +6,9 @@ const getAllCars = async (): Promise<Car[]> => {
     return await carsDb.getAllCars();
 }
 
-const addCar = ({chassisNumber, price, brand, model, condition, status}: CarInput): Car => {
+const addCar = async ({chassisNumber, price, brand, model, condition, status}: CarInput): Promise<Car> => {
     const car = new Car({chassisNumber, price, brand, model, condition, status});
-    return <Car>carsDb.addCar(car);
+    return carsDb.addCar(car);
 }
 
 export default {

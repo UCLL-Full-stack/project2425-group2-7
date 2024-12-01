@@ -18,9 +18,9 @@ const CarsOverviewTable: React.FC<Props> = ({cars}) => {
                             </tr>
                         </thead>
                         <tbody className="cars-tbody">
-                        {cars.map(car => (
+                        {cars.map((car, index) => (
                             <>
-                                <tr>
+                                <tr key={index}>
                                 <td className="cars-td">{car.chassisNumber}</td>
                                 <td>{car.brand}</td>
                                 <td>{car.model}</td>

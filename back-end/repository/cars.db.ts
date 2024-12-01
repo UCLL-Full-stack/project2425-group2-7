@@ -1,12 +1,27 @@
 import { Car } from "../model/car";
 import {CarInput} from "../types";
 import database from "./database";
+import {Car as CarPrisma} from '@prisma/client';
 
 const cars: Car[] =[];
 
-const addCar = (car: Car) =>{
-    cars.push(car);
-    return car;
+const addCar = async (car: Car): Promise<Car> => {
+    try {
+        const carPrisma = await database.car.create({
+            data: {
+                chassisNumber: car.getChassisNumber(),
+                price: car.getPrice(),
+                brand: car.getBrand(),
+                model: car.getModel(),
+                condition: car.getCondition(),
+                status: car.getStatus(),
+            }
+        })
+        return Car.from(carPrisma);
+    } catch(error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details')
+    }
 }
 const getAllCars = async (): Promise<Car[]> => {
     try {
