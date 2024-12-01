@@ -17,10 +17,6 @@ import customerService from '../service/customer.service';
  *             type: string
  *           loyaltyCard:
  *               $ref: '#/components/schemas/LoyaltyCard'
- *           purchaseHistory:
- *             type: array
- *             items:
- *               $ref: '#/components/schemas/Transaction'
  *           cars:
  *             type: array
  *             items:

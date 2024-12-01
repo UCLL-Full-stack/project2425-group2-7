@@ -1,6 +1,5 @@
 import express from "express";
 import transactionService from '../service/transaction.service';
-import getAllTransactions from "../service/transaction.service";
 
 const transactionRouter = express.Router();
 transactionRouter.get('/', async (req: express.Request, res: express.Response) => {
