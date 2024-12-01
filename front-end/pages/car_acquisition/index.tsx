@@ -6,15 +6,22 @@ import Header from "@components/header";
 import PopUp from "@components/PopUp";
 import Home from "../index";
 import CarsOverviewTable from "@components/cars/CarsOverview";
+import CarFilter from "@components/cars/CarFilter";
 
 const Cars: React.FC = () => {
     const [cars, setCars] = useState<Array<Car>>([]);
     const [error, setError] = useState<string>();
-    const [buttonPopUp, setButtonPopup] = useState(false)
+    const [buttonPopUp, setButtonPopup] = useState(false);
+    const [filteredCars, setFilteredCars] = useState<Array<Car>>([]);
 
     useEffect(() => {
         getAllCars();
     }, []);
+
+    useEffect(() => {
+        setFilteredCars(cars);
+    }, [cars]);
+
     const getAllCars = async () => {
         setError("");
         const response = await CarService.getAllCars();
@@ -25,9 +32,26 @@ const Cars: React.FC = () => {
             const cars = await response.json();
             setCars(cars);
         }
+    }
 
-    } // all this above fetches cars from the in-memory db (CarService fetch -> CarService backend -> CarRepo) and if response ok then transform to json and
-    // setCars(cars) to use as Prop for CarsOverview component (which is the table)
+    const handleFilterChange = (filter: { field: string, value: string }) => {
+        if (!filter.field || !filter.value) {
+            setFilteredCars(cars);
+            return;
+        }
+
+        const filtered = cars.filter(car => {
+            const carValue = car[filter.field as keyof Car];
+            if (carValue === undefined) return false;
+            
+            return String(carValue)
+                .toLowerCase()
+                .includes(filter.value.toLowerCase());
+        });
+
+        setFilteredCars(filtered);
+    };
+
     return (
         <>
             <Head>
@@ -39,16 +63,16 @@ const Cars: React.FC = () => {
                     {cars && (
                         <>
                             <h2>Available cars</h2>
-                            <CarsOverviewTable cars={cars} />
+                            <CarFilter onFilterChange={handleFilterChange} />
+                            <CarsOverviewTable cars={filteredCars} />
                             <button onClick={() => setButtonPopup(true)} className="add-car-btn">Add new car</button>
-                
                         </>
                     )}
                 </section>
             </main>
             <PopUp trigger={buttonPopUp} setTrigger={setButtonPopup}>
-                    <p>Are you sure you want to add this car?</p> 
-                </PopUp>
+                <p>Are you sure you want to add this car?</p> 
+            </PopUp>
         </>
     )
 }
