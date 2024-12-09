@@ -14,9 +14,6 @@ const Cars: React.FC = () => {
     const [buttonPopUp, setButtonPopup] = useState(false);
     const [filteredCars, setFilteredCars] = useState<Array<Car>>([]);
 
-    useEffect(() => {
-        getAllCars();
-    }, []);
 
     useEffect(() => {
         setFilteredCars(cars);
@@ -33,6 +30,9 @@ const Cars: React.FC = () => {
             setCars(cars);
         }
     }
+    useEffect(() => {
+        getAllCars();
+    }, []);
 
     const handleFilterChange = (filter: { field: string, value: string }) => {
         if (!filter.field || !filter.value) {

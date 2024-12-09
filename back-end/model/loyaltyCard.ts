@@ -8,7 +8,7 @@ import {
 } from '@prisma/client';
 
 export class LoyaltyCard{
-    private id: number;
+    private id?: number;
     private points: number;
     private tier: Tier;
     private discountPercentage: number;
@@ -19,7 +19,7 @@ export class LoyaltyCard{
         return new LoyaltyCard({id, points, tier: tier as Tier, discountPercentage, validity, totalSpent});
     }
 
-    constructor(loyaltyCard: { id: number, points: number, discountPercentage: number, validity: Date, totalSpent: number,tier: Tier}){
+    constructor(loyaltyCard: { id?: number, points: number, discountPercentage: number, validity: Date, totalSpent: number,tier: Tier}){
         this.id = loyaltyCard.id;
         this.points = loyaltyCard.points;
         this.tier = loyaltyCard.tier;

@@ -41,7 +41,7 @@ export class Transaction{
         return this.date
     }
 
-    getCar(): Array<Car>{
+    getCars(): Array<Car>{
         return this.cars;
     }
 

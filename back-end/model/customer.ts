@@ -39,7 +39,9 @@ export class Customer{
     constructor(customer: {id?: number, name: string, email: string, loyaltyCard?: LoyaltyCard,  cars?: Car[]}) {
         this.id = customer.id;
         this.name = customer.name;
+        if (customer.email.includes("@")) {
         this.email = customer.email;
+        } else {throw new Error("Email must contain @")}
         this.loyaltyCard = customer.loyaltyCard;
         this.purchaseHistory = new Array<Transaction>
         this.cars = customer.cars
