@@ -10,10 +10,26 @@ type CarInput = {
     status: Status;
 }
 
+type UserInputRegister = {
+    username: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    role: Role;
+}
+
+type UserInputLogin = {
+    username: string;
+    password: string;
+}
+
 type Role = 'ADMIN' | 'CUSTOMER';
 type Type = 'Purchase'| 'Sale' | 'Trade';
 type Tier = 'Bronze' | 'Silver' | 'Gold' | 'Platinum';
 export {
+    UserInputRegister,
+    UserInputLogin,
     CarInput,
     Status,
     Type,

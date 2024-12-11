@@ -10,6 +10,22 @@ const getAllUsers = async (): Promise<User[]> => {
     }
 }
 
+const getUserByUsername = async (username: string): Promise<User> => {
+    try {
+        const userPrisma = await database.user.findUnique({
+            where: { username },
+        });
+
+        if (!userPrisma) {
+            throw new Error("User not found");
+        }
+        return User.from(userPrisma);
+    } catch (error) {
+        console.error('Error fetching user by username:', error);
+        throw error;
+    }
+}
+
 const registerUser = async ({username, firstName, lastName, email, password, role}: User): Promise<void> => {
     try {
         const userPrisma = await database.user.create({
@@ -29,4 +45,6 @@ const registerUser = async ({username, firstName, lastName, email, password, rol
 
 export default {
     getAllUsers,
+    registerUser,
+    getUserByUsername
 }
