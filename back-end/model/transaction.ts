@@ -3,11 +3,11 @@ import {
     Customer as CustomerPrisma,
     Transaction as TransactionPrisma,
     LoyaltyCard as LoyaltyCardPrisma,
+    User as UserPrisma,
 } from '@prisma/client';
 import {Car} from "./car";
 import {Type} from "../types";
 import {Customer} from "./customer";
-import {LoyaltyCard} from "./loyaltyCard";
 export class Transaction{
     private id?: number;
     private type: Type;
@@ -16,7 +16,7 @@ export class Transaction{
     private customer: Customer;
 
 
-    static from ({id, type, date, cars=[], customer}: TransactionPrisma & {cars: CarPrisma[], customer: CustomerPrisma & {loyaltyCard: LoyaltyCardPrisma | null, cars: CarPrisma[]}}) {
+    static from ({id, type, date, cars=[], customer}: TransactionPrisma & {cars: CarPrisma[], customer: CustomerPrisma & {loyaltyCard: LoyaltyCardPrisma | null, cars: CarPrisma[], user: UserPrisma}}) {
         return new Transaction({id,
             type: type as Type,
             date,

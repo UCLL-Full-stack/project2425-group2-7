@@ -10,6 +10,7 @@ type CarInput = {
     status: Status;
 }
 
+type Role = 'Admin' | 'Customer';
 type Type = 'Purchase'| 'Sale' | 'Trade';
 type Tier = 'Bronze' | 'Silver' | 'Gold' | 'Platinum';
 export {
@@ -17,6 +18,7 @@ export {
     Status,
     Type,
     Tier,
+    Role,
 }
 
 

@@ -11,10 +11,6 @@ import customerService from '../service/customer.service';
  *           id:
  *             type: number
  *             format: int64
- *           name:
- *             type: string
- *           email:
- *             type: string
  *           loyaltyCard:
  *               $ref: '#/components/schemas/LoyaltyCard'
  *           cars:

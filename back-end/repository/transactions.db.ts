@@ -5,7 +5,8 @@ const getAllTransactions = async () => {
     try {
         const transactions = await database.transaction.findMany({include: {cars: true, customer: {include: {
                         loyaltyCard: true,
-                        cars: true
+                        cars: true,
+                        user: true,
                     }}}})
         return transactions.map((transaction) => Transaction.from(transaction));
     } catch(error) {

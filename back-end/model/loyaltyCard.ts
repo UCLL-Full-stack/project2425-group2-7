@@ -25,7 +25,7 @@ export class LoyaltyCard{
         this.tier = loyaltyCard.tier;
         this.discountPercentage = loyaltyCard.discountPercentage;
         this.validity = loyaltyCard.validity;
-        this.totalSpent = loyaltyCard.totalSpent
+        this.totalSpent = loyaltyCard.totalSpent;
     }
     getId(){
         return this.id

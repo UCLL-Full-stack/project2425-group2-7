@@ -7,6 +7,8 @@ import swaggerUi from 'swagger-ui-express';
 import {carRouter} from "./controller/car.routes";
 import customerRouter from "./controller/customer.routes";
 import transactionRouter from "./controller/transaction.routes";
+import {userRouter} from "./controller/user.routes";
+import loyaltyCardRouter from "./controller/loyaltyCard.routes";
 
 const app = express();
 dotenv.config();
@@ -18,7 +20,8 @@ app.use(bodyParser.json());
 app.use('/car_acquisition', carRouter);
 app.use('/customers', customerRouter);
 app.use('/transactions', transactionRouter);
-
+app.use('/users', userRouter);
+app.use('/loyaltyCards', loyaltyCardRouter);
 app.get('/status', (req, res) => {
     res.json({ message: 'Back-end is running...' });
 });
