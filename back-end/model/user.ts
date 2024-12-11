@@ -5,13 +5,13 @@ import {
 
 export class User {
 
-    private id?: number;
-    private username: string;
-    private firstName: string;
-    private lastName: string;
-    private email: string;
-    private password: string;
-    private role: Role;
+    readonly id?: number;
+    readonly username: string;
+    readonly firstName: string;
+    readonly lastName: string;
+    readonly email: string;
+    readonly password: string;
+    readonly role: Role;
 
     static from({id, username, firstName, lastName, email, password, role}:UserPrisma) {
         return new User({
