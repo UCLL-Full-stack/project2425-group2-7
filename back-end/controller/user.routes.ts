@@ -67,7 +67,7 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
 
 /**
  * @swagger
- * /users:
+ * /users/register:
  *   post:
  *     summary: Register a new user
  *     requestBody:
@@ -86,7 +86,7 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  *
  */
 
-userRouter.post('/', async (req: Request, res: express.Response, next:NextFunction) => {
+userRouter.post('/register', async (req: Request, res: express.Response, next:NextFunction) => {
     try {
         const user = <UserInputRegister>req.body;
         const result = await userService.registerUser(user);

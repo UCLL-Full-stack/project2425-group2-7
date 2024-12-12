@@ -33,6 +33,7 @@ export class User {
         password: string;
         role: Role;
                 }) {
+        this.validate(user);
         this.id = user.id;
         this.username = user.username;
         this.firstName = user.firstName;
@@ -68,15 +69,35 @@ export class User {
         return this.password;
     }
 
-
+    validate(user: {
+        username: string;
+        firstName: string;
+        password: string;
+        lastName: string;
+        email: string;
+        role: Role;
+    }) {
+        if (!user.username?.trim()) {
+            throw new Error('Username is required');
+        }
+        if (!user.firstName?.trim()) {
+            throw new Error('First name is required');
+        }
+        if (!user.lastName?.trim()) {
+            throw new Error('Last name is required');
+        }
+        if (!user.email?.trim()) {
+            throw new Error('Email is required');
+        }
+        if (!user.role) {
+            throw new Error('Role is required');
+        }
+    }
+    // unique values are username and email
     equals(user: User): boolean {
         return (
             this.username === user.getUsername() &&
-            this.firstName === user.getFirstName() &&
-            this.lastName === user.getLastName() &&
-            this.email === user.getEmail() &&
-            this.password === user.getPassword() &&
-            this.role === user.getRole()
+            this.email === user.getEmail()
         );
     }
 

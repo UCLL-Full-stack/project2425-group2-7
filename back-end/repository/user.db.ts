@@ -26,7 +26,7 @@ const getUserByUsername = async (username: string): Promise<User> => {
     }
 }
 
-const registerUser = async ({username, firstName, lastName, email, password, role}: User): Promise<void> => {
+const registerUserDb = async ({username, firstName, lastName, email, password, role}: User): Promise<User> => {
     try {
         const userPrisma = await database.user.create({
             data: {
@@ -38,6 +38,7 @@ const registerUser = async ({username, firstName, lastName, email, password, rol
                 role
             }
         })
+        return User.from(userPrisma)
     } catch (error) {
         throw new Error("Problem with creating in user repository")
     }
@@ -49,7 +50,7 @@ const loginUser = async ({username, password}: User): Promise<User | null> => {
 
 export default {
     getAllUsers,
-    registerUser,
+    registerUserDb,
     getUserByUsername,
     loginUser,
 }

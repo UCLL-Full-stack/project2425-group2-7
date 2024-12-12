@@ -9,10 +9,17 @@ const getAllUsers = async (): Promise<User[]> => {
 const registerUser = async ({username, firstName, lastName, email, password, role}: UserInputRegister): Promise<User> => {
     try {
         const user = new User({username, firstName, lastName, email, password, role});
-        await userDb.registerUser(user)
-        return await userDb.getUserByUsername(username)
+
+        // error handling
+        const users = await userDb.getAllUsers();
+        users.forEach((userDb) => {
+            if (userDb.equals(user)) {
+                throw new Error("This email or username has already been taken")
+            }
+        })
+        return await userDb.registerUserDb(user)
     } catch (error) {
-        throw new Error("Error in the registerUser service function")
+        throw new Error("service error");
     }
 
 }
