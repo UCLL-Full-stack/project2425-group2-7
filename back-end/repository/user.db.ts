@@ -43,8 +43,13 @@ const registerUser = async ({username, firstName, lastName, email, password, rol
     }
 }
 
+const loginUser = async ({username, password}: User): Promise<User | null> => {
+    return null
+}
+
 export default {
     getAllUsers,
     registerUser,
-    getUserByUsername
+    getUserByUsername,
+    loginUser,
 }

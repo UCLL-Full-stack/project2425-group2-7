@@ -1,6 +1,6 @@
 import {User} from "../model/user";
 import userDb from "../repository/user.db";
-import {UserInputRegister} from "../types";
+import {UserInputLogin, UserInputRegister} from "../types";
 
 const getAllUsers = async (): Promise<User[]> => {
     return await userDb.getAllUsers();
@@ -15,6 +15,10 @@ const registerUser = async ({username, firstName, lastName, email, password, rol
         throw new Error("Error in the registerUser service function")
     }
 
+}
+
+const loginUser = async ({username, password}: UserInputLogin): Promise<null> => {
+    return null
 }
 
 export default {

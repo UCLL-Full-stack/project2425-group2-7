@@ -96,4 +96,6 @@ userRouter.post('/', async (req: Request, res: express.Response, next:NextFuncti
     }
 })
 
+userRouter.post('/')
+
 export {userRouter};
