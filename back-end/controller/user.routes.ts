@@ -110,7 +110,7 @@ userRouter.post('/register', async (req: Request, res: express.Response, next:Ne
     try {
         const user = <UserInputRegister>req.body;
         const result = await userService.registerUser(user);
-        res.status(200).json(result)
+        res.status(200).json(result);
     } catch (error) {
         next(error);
     }
