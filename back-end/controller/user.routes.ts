@@ -1,11 +1,31 @@
 import express, { Request, Response, NextFunction } from 'express';
 import userService from "../service/user.service";
-import {UserInputRegister} from "../types";
+import {UserInputLogin, UserInputRegister} from "../types";
 
 /**
  * @swagger
  * components:
  *   schemas:
+ *
+ *     AuthenticationResponse:
+ *       type: object
+ *       properties:
+ *         username:
+ *           type: string
+ *         fullname:
+ *           type: string
+ *         token:
+ *           type: string
+ *           description: JWT access token
+ *
+ *     UserInputLogin:
+ *       type: object
+ *       properties:
+ *         username:
+ *           type: string
+ *         password:
+ *           type: string
+ *
  *     UserInputRegister:
  *       type: object
  *       properties:
@@ -96,6 +116,35 @@ userRouter.post('/register', async (req: Request, res: express.Response, next:Ne
     }
 })
 
-userRouter.post('/')
-
+/**
+ * @swagger
+ * /users/login:
+ *   post:
+ *     summary: Login to the app
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UserInputLogin'
+ *     responses:
+ *       200:
+ *         description: successful login
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/AuthenticationResponse'
+ *
+ */
+userRouter.post('/login', async (req: Request, res: express.Response, next:NextFunction) => {
+    try {
+        const userInputLogin = req.body as UserInputLogin;
+        const authResponse = await userService.login(userInputLogin);
+        res.status(200).json(authResponse);
+    } catch(error) {
+        next(error);
+    }
+})
 export {userRouter};
