@@ -37,7 +37,7 @@ type JWTPayload = {
 }
 
 type Role = 'ADMIN' | 'CUSTOMER';
-type Type = 'Purchase'| 'Sale' | 'Trade';
+type Type = 'P'| 'S' | 'T';
 type Tier = 'Bronze' | 'Silver' | 'Gold' | 'Platinum';
 export {
     UserInputRegister,
