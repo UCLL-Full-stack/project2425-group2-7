@@ -25,6 +25,7 @@ export class Transaction{
         );
     }
     constructor(transaction:{id?: number, type: Type,date:Date, cars: Car[], customer: Customer}){
+        this.validate();
         this.id = transaction.id;
         this.type = transaction.type;
         this.date = transaction.date;
@@ -34,7 +35,7 @@ export class Transaction{
     getId(): number | undefined{
         return this.id
     }
-    getType(): 'Purchase'| 'Sale' | 'Trade'{
+    getType(): 'P'| 'S' | 'T'{
         return this.type
     }
     getDate(): Date{
@@ -47,6 +48,31 @@ export class Transaction{
 
     getCustomer(): Customer{
         return this.customer;
+    }
+
+    validate() {
+
+        switch(this.type) {
+            case 'P':
+                if (this.cars.length > 1) {
+                    throw new Error("You can only buy 1 car");
+                }
+                return null
+            case "T":
+                if (this.cars.length != 2) {
+                    throw new Error("You must submit your trade in vehicle and the vehicle you want to purchase");
+                }
+                return null
+            case "S":
+                if (this.cars.length != 1) {
+                    throw new Error("There can only be 1 car to sell");
+                }
+                return null
+            default:
+                throw new Error("Transaction must be either T, S or P")
+
+        }
+
     }
 
 }
