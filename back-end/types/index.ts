@@ -24,6 +24,18 @@ type UserInputLogin = {
     password: string;
 }
 
+type AuthenticationResponse = {
+    token: string;
+    username: string;
+    fullName: string;
+    role: Role;
+}
+
+type JWTPayload = {
+    username: string;
+    role?: Role
+}
+
 type Role = 'ADMIN' | 'CUSTOMER';
 type Type = 'Purchase'| 'Sale' | 'Trade';
 type Tier = 'Bronze' | 'Silver' | 'Gold' | 'Platinum';
@@ -35,6 +47,8 @@ export {
     Type,
     Tier,
     Role,
+    AuthenticationResponse,
+    JWTPayload,
 }
 
 

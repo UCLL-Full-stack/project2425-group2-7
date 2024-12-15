@@ -1,5 +1,6 @@
 import {User} from "../model/user";
 import database from "./database";
+import {UserInputRegister} from "../types";
 
 const getAllUsers = async (): Promise<User[]> => {
     try {
@@ -10,14 +11,14 @@ const getAllUsers = async (): Promise<User[]> => {
     }
 }
 
-const getUserByUsername = async (username: string): Promise<User> => {
+const getUserByUsername = async (username: string): Promise<User|null> => {
     try {
         const userPrisma = await database.user.findUnique({
             where: { username },
         });
 
         if (!userPrisma) {
-            throw new Error("User not found");
+            return null;
         }
         return User.from(userPrisma);
     } catch (error) {
@@ -26,7 +27,7 @@ const getUserByUsername = async (username: string): Promise<User> => {
     }
 }
 
-const registerUserDb = async ({username, firstName, lastName, email, password, role}: User): Promise<User> => {
+const registerUserDb = async ({username, firstName, lastName, email, password, role}: UserInputRegister): Promise<User> => {
     try {
         const userPrisma = await database.user.create({
             data: {
