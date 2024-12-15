@@ -21,13 +21,13 @@ const PopUp: React.FC<{ trigger: boolean, setTrigger: (value: boolean) => void, 
                     const status_input = (document.getElementsByClassName('status-input')[0] as HTMLInputElement).value.trim()
                     const price_input = (document.getElementsByClassName('price-input')[0] as HTMLInputElement).value.trim()
 
-                    // Basic form validation
+                    //form validation
                     if (!model_input || !brand_input || !chassis_input || !condition_input || !status_input || !price_input) {
                         alert('Please fill in all fields');
                         return;
                     }
 
-                    // Validate price is a number
+                    // make suure price is a number
                     if (isNaN(Number(price_input))) {
                         alert('Price must be a valid number');
                         return;

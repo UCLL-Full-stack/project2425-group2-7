@@ -10,7 +10,6 @@ const registerUser = async ({username, firstName, lastName, email, password, rol
     try {
         const user = new User({username, firstName, lastName, email, password, role});
 
-        // error handling
         const users = await userDb.getAllUsers();
         users.forEach((userDb) => {
             if (userDb.equals(user)) {
@@ -19,6 +18,7 @@ const registerUser = async ({username, firstName, lastName, email, password, rol
         })
         return await userDb.registerUserDb(user)
     } catch (error) {
+        console.log(error)
         throw new Error("service error");
     }
 
