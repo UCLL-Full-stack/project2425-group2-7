@@ -9,11 +9,11 @@ import {Car} from "./car";
 import {Type} from "../types";
 import {Customer} from "./customer";
 export class Transaction{
-    private id?: number;
-    private type: Type;
-    private date: Date;
-    private cars: Car[];
-    private customer: Customer;
+    readonly id?: number;
+    readonly type: Type;
+    readonly date: Date;
+    readonly cars: Car[];
+    readonly customer: Customer;
 
 
     static from ({id, type, date, cars=[], customer}: TransactionPrisma & {cars: CarPrisma[], customer: CustomerPrisma & {loyaltyCard: LoyaltyCardPrisma | null, cars: CarPrisma[], user: UserPrisma}}) {
