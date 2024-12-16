@@ -74,28 +74,29 @@ type JWTPayload = { // role decides whats shown
 }
 
 type TransactionInput = {
-    type: Type;
+    typeTransaction: TypeTransaction;
     date: Date;
-    carsId: number;
+    carsId: number[];
     customerId: number;
 }
 
 type Transaction = { // when needing raw transaction object
     id: number;
-    type: Type;
+    date: Date;
+    type: TypeTransaction;
     cars: Car[];
     customer: Customer
 }
 
 type Role = 'ADMIN' | 'CUSTOMER';
-type Type = 'P'| 'S' | 'T';
+type TypeTransaction = 'P'| 'S' | 'T';
 type Tier = 'Bronze' | 'Silver' | 'Gold' | 'Platinum';
 export {
     UserInputRegister,
     UserInputLogin,
     CarInput,
     Status,
-    Type,
+    TypeTransaction,
     Tier,
     Role,
     AuthenticationResponse,
