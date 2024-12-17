@@ -41,4 +41,9 @@ export type User = {
     role: string;
 };
 
+export type UserInputLogin = {
+    username: string;
+    password: string;
+}
+
 

@@ -6,6 +6,12 @@ import PopUp from '@components/LoyaltycardPopIp';
 const Home: React.FC = () => {
     const [showPopup, setShowPopup] = useState(false);
     const userTier = 'Gold';
+    // const [loggedInUser,setLoggedInUser] = useState<string>("")
+
+    // const user  = sessionStorage.getItem("loggedInUser");
+    // if (user) {
+    //     setLoggedInUser(user);
+    // }
 
     return (
         <>
@@ -21,7 +27,7 @@ const Home: React.FC = () => {
                     Discover our extensive selection of vehicles. We offer the best prices and a hassle-free shopping experience.
                     Whether you are looking for a new or used car, our team is here to help you find the perfect match.
                 </p>
-                <button 
+                 <button 
                     onClick={() => setShowPopup(true)}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 >

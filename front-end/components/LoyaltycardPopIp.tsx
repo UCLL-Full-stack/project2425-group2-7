@@ -2,6 +2,8 @@ import React from 'react';
 
 type LoyaltyTier = 'Bronze' | 'Silver' | 'Gold' | 'Platinum';
 
+
+
 interface PopUpProps {
   trigger: boolean;
   setTrigger: (value: boolean) => void;
@@ -10,6 +12,8 @@ interface PopUpProps {
 
 const PopUp: React.FC<PopUpProps> = ({ trigger, setTrigger, tier }) => {
   if (!trigger) return null;
+
+  const user  = sessionStorage.getItem("loggedInUser")
 
   const getTierColor = (tier: LoyaltyTier) => {
     switch (tier) {
@@ -31,7 +35,7 @@ const PopUp: React.FC<PopUpProps> = ({ trigger, setTrigger, tier }) => {
         </button>
         
         <div className="text-center">
-          <h2 className="text-2xl font-bold mb-4">Your Loyalty Tier</h2>
+          <h2 className="text-2xl font-bold mb-4">Hello{user}, Your Loyalty Tier</h2>
           <div className={`${getTierColor(tier)} text-white p-6 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105`}>
             <p className="text-3xl font-bold">{tier}</p>
           </div>

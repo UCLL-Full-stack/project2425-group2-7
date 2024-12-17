@@ -11,23 +11,23 @@ const getAllUsers = async (): Promise<User[]> => {
 
 const registerUser = async (userInputRegister: UserInputRegister): Promise<User> => {
     try {
-        const user = await userDb.getUserByUsername(userInputRegister.username);
-
-        // hash password so its hashed in the db
+        const existingUser = await userDb.getUserByUsername(userInputRegister.username);
+        if (existingUser) {
+            throw new Error('Username already exists');
+        }
         const hashedPassword = await bcrypt.hash(userInputRegister.password, 8);
 
-        const users = await userDb.getAllUsers();
-        users.forEach((userDb) => {
-            if (userDb.equals(user)) {
-                throw new Error("This email or username has already been taken")
-            }
-        })
-        return await userDb.registerUserDb(user)
-    } catch (error) {
-        console.log(error)
-        throw new Error("service error");
-    }
+        const newUser = {
+            ...userInputRegister,
+            password: hashedPassword
+        };
 
+
+        return await userDb.registerUserDb(newUser);
+    } catch (error) {
+        console.error('Registration error:', error);
+        throw error;
+    }
 }
 
 const login = async({username, password}: UserInputLogin): Promise<AuthenticationResponse> => {

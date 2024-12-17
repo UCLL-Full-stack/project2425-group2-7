@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import userService from "@services/userService";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -9,42 +9,64 @@ const UserLoginForm: React.FC = () => {
   const [nameError, setNameError] = useState<string>();
   const [passwordError, setPasswordError] = useState<string>();
 
-
   const clearErrors = () => {
-    setNameError("");
-    setPassword('');
+    setNameError(undefined);
+    setPasswordError(undefined);
   };
 
   const validate = (): boolean => {
     let result = true;
 
-    if (!name && name.trim() === "") {
+    if (!name?.trim()) {
       setNameError("Name is required");
       result = false;
     }
-    if (!password && password.trim() === "") {
-        setNameError("Password is required");
-        result = false;
-      }
+    
+    if (!password?.trim()) {
+      setPasswordError("Password is required");
+      result = false;
+    }
 
     return result;
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>)=>{
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     clearErrors();
-    if(!validate){
+    
+    if (!validate()) {
       return;
     }
 
-    sessionStorage.setItem("loggedInUser", name);
 
-    setTimeout(()=>{
-      router.push("/")
-    })
+    const user = { username: name, password};
+    const response =await userService.loginUser(user);
+    const userData = await response.json();
+
+    if(  response.ok){
+
+      sessionStorage.setItem("loggedInUser",JSON.stringify({
+        token: userData.token,
+        fullName: userData.fullName,
+        username: userData.username,
+        role: userData.role,
+      }
+      ));
+
+      setTimeout(() => {
+        router.push("/");
+      },2000);
+    }else{
+      console.log('An error occurred during login')
+    }
+ 
+    
     
 
-  }
+
+
+    
+  };
 
   return (
     <>
@@ -59,9 +81,11 @@ const UserLoginForm: React.FC = () => {
             type="text"
             value={name}
             onChange={(event) => setName(event.target.value)}
-            className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue:500 block w-full p-2.5"
+            className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           />
-          {<p className="text-red-800">{nameError}</p>}
+          {nameError && (
+            <div className="text-red-800">{nameError}</div>
+          )}
         </div>
 
         <label htmlFor="passwordInput" className="block mb-2 text-sm font-medium">
@@ -73,9 +97,9 @@ const UserLoginForm: React.FC = () => {
             type="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue:500 block w-full p-2.5"
+            className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           />
-          {<p className="text-red-800">{passwordError}</p>}
+          {passwordError && <p className="text-red-800">{passwordError}</p>}
         </div>
 
         <button
