@@ -132,6 +132,7 @@ transactionRouter.get('/', async (req: express.Request, res: express.Response) =
  *               $ref: '#/components/Transaction'
  *
  */
+// input is the ID of cars and customers, NOT the objects
 transactionRouter.post('/add', async (req: express.Request, res: express.Response) => {
     try {
         const transaction = <TransactionInput>req.body;
