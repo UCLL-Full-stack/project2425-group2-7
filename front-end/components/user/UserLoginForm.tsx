@@ -8,6 +8,7 @@ const UserLoginForm: React.FC = () => {
   const [password, setPassword] = useState("");
   const [nameError, setNameError] = useState<string>();
   const [passwordError, setPasswordError] = useState<string>();
+  const [showWelcome, setShowWelcome] = useState(false);
 
   const clearErrors = () => {
     setNameError(undefined);
@@ -41,10 +42,10 @@ const UserLoginForm: React.FC = () => {
 
     const user = { username: name, password};
     const response =await userService.loginUser(user);
-    const userData = await response.json();
+    
 
-    if(  response.ok){
-
+    if(response.ok){
+      const userData = await response.json();
       sessionStorage.setItem("loggedInUser",JSON.stringify({
         token: userData.token,
         fullName: userData.fullName,
@@ -53,24 +54,26 @@ const UserLoginForm: React.FC = () => {
       }
       ));
 
+      setShowWelcome(true);
+
+      
       setTimeout(() => {
         router.push("/");
       },2000);
     }else{
       console.log('An error occurred during login')
     }
- 
-    
-    
-
-
-
     
   };
 
   return (
     <>
       <h3 className="px-0">Login</h3>
+      {showWelcome && (
+        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+          login successful {JSON.parse(sessionStorage.getItem("loggedInUser") || "{}").username}, redirecting to home page! 
+        </div>
+      )}
       <form onSubmit={handleSubmit}>
         <label htmlFor="nameInput" className="block mb-2 text-sm font-medium">
           Username:

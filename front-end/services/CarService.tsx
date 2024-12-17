@@ -1,13 +1,13 @@
 import {Car} from "@types";
 
 const getAllCars = async () => {
+    // const token = JSON.parse(sessionStorage.getItem("loggedInUser") || "{}")?.token;
     const apiUrl = process.env.NEXT_PUBLIC_API_URL + "/car_acquisition";
-    console.log(apiUrl);
-
     return fetch(apiUrl, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
+            // Authorization: `Bearer ${token}`,
         }
     });
 }
