@@ -9,6 +9,7 @@ const Header: React.FC = () => {
                 <Link href="/car_acquisition" className="header__link">Cars</Link>
                 <Link href="/trade-in">Trade your car</Link>
                 <Link href="/login">Login</Link>
+                <Link href="/trades">Trade-Ins</Link>
             </nav>
         </header>
     );
