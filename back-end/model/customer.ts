@@ -9,7 +9,7 @@ import {
 } from '@prisma/client';
 import {User} from "./user";
 export class Customer{
-    private id?: number; // put in user and here
+    readonly id?: number; // put in user and here
     private loyaltyCard?: LoyaltyCard;
     private user: User;
     private purchaseHistory: Transaction[];

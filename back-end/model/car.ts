@@ -4,7 +4,7 @@ import {
 } from '@prisma/client';
 import {Customer} from "./customer";
 export class Car{
-    private id?: number;
+    readonly id?: number;
     private chassisNumber: number;
     private price: number;
     private brand: string;

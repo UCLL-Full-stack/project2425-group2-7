@@ -11,9 +11,13 @@ export type LoyaltyCard = {
 
 export type Transaction = {
     id: number;
-    type: string;
+    typeTransaction: TypeTransaction;
     date: Date;
+    cars: Car[];
+    customer: Customer;
 };
+
+
 
 export type Car = {
     chassisNumber: number;
@@ -24,26 +28,31 @@ export type Car = {
     status: string;
 };
 
-export type Customer = {
+export type Customer = { // when needing raw customer object
     id: number;
-    name: string;
-    email: string;
     loyaltyCard: LoyaltyCard;
+    user: User;
     purchaseHistory: Transaction[];
-};
+    cars: Car[]
+}
 
-export type User = {
+export type User = { // to be used for fetching
+    id: number;
     username: string;
-    firstName:string;
+    firstName: string;
     lastName: string;
     email: string;
     password: string;
-    role: string;
-};
+    role: Role;
+}
 
 export type UserInputLogin = {
     username: string;
     password: string;
 }
+
+export type Role = 'ADMIN' | 'CUSTOMER';
+export type TypeTransaction = 'P'| 'S' | 'T';
+
 
 

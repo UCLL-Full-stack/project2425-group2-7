@@ -14,6 +14,12 @@ enum Role {
   CUSTOMER
 }
 
+enum TypeTransaction {
+  T
+  S
+  P
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -45,12 +51,12 @@ model LoyaltyCard {
 }
 
 model Transaction {
-  id         Int      @id @default(autoincrement())
-  type       String
-  date       DateTime
-  cars       Car[]
-  customer   Customer @relation(fields: [customerId], references: [id])
-  customerId Int
+  id              Int             @id @default(autoincrement())
+  typeTransaction TypeTransaction
+  date            DateTime
+  cars            Car[]
+  customer        Customer        @relation(fields: [customerId], references: [id])
+  customerId      Int
 }
 
 model Customer {

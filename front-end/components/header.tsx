@@ -36,7 +36,7 @@ const Header: React.FC = () => {
                     </Link>
                 )}
                 {loggedInUser && (
-                    <a 
+                    <a
                         href="#"
                         className="header__link"
                         onClick={handleLogout}
@@ -52,6 +52,6 @@ const Header: React.FC = () => {
             </nav>
         </header>
     );
-};
+}
 
 export default Header;
