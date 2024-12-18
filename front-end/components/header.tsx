@@ -46,7 +46,8 @@ const Header: React.FC = () => {
                 <Link href="/car_acquisition" className="header__link">
                     Cars
                 </Link>
-                {userData?.role === 'CUSTOMER' &&
+                {(loggedInUser && userData?.role === 'ADMIN') && <Link href={"/trades"}>View Trades</Link>}
+                {(loggedInUser && userData?.role === 'CUSTOMER') &&
                  <Link href="/trade-in" className="header__link">
                     Trade your car
                 </Link>}

@@ -41,7 +41,7 @@ const Home: React.FC = () => {
                     Discover our extensive selection of vehicles. We offer the best prices and a hassle-free shopping experience.
                     Whether you are looking for a new or used car, our team is here to help you find the perfect match.
                 </p>
-                {userData?.role === "CUSTOMER" && (
+                {(userData?.role === "CUSTOMER") && (
                     <button 
                         onClick={() => setShowPopup(true)}
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded
