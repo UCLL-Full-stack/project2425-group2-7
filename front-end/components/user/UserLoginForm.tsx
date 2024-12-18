@@ -9,10 +9,12 @@ const UserLoginForm: React.FC = () => {
   const [nameError, setNameError] = useState<string>();
   const [passwordError, setPasswordError] = useState<string>();
   const [showWelcome, setShowWelcome] = useState(false);
+  const [error, setError] = useState('')
 
   const clearErrors = () => {
     setNameError(undefined);
     setPasswordError(undefined);
+    setError("")
   };
 
   const validate = (): boolean => {
@@ -61,6 +63,7 @@ const UserLoginForm: React.FC = () => {
         router.push("/");
       },2000);
     }else{
+      setError("Username or password incorrect")
       console.log('An error occurred during login')
     }
     
@@ -69,6 +72,9 @@ const UserLoginForm: React.FC = () => {
   return (
     <>
       <h3 className="px-0">Login</h3>
+      {error && (
+        <div>{error}</div>
+      )}
       {showWelcome && (
         <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
           login successful {JSON.parse(sessionStorage.getItem("loggedInUser") || "{}").username}, redirecting to home page! 
