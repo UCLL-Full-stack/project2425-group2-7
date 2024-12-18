@@ -11,10 +11,9 @@ interface FilterCriteria {
   value: string;
 }
 
-const CarsOverviewTable: React.FC<Props> = ({ cars = [] }) => {  // provide default empty array
+const CarsOverviewTable: React.FC<Props> = ({ cars = [] }) => { 
   const [filter, setFilter] = useState<FilterCriteria>({ field: '', value: '' });
 
-  // Ensure cars is an array before filtering
   const carArray = Array.isArray(cars) ? cars : [];
 
   const filteredCars = carArray.filter(car => {
@@ -28,7 +27,9 @@ const CarsOverviewTable: React.FC<Props> = ({ cars = [] }) => {  // provide defa
       .includes(filter.value.toLowerCase());
   });
 
-  return (
+  const token = JSON.parse(sessionStorage.getItem("loggedInUser") || "{}")?.token;
+
+  return token ? (
     <div>
       <CarFilter onFilterChange={setFilter} />
       
@@ -83,7 +84,7 @@ const CarsOverviewTable: React.FC<Props> = ({ cars = [] }) => {  // provide defa
         </table>
       </div>
     </div>
-  );
+  ) : <div>You cannot access this page. Please login first</div>;
 };
 
 export default CarsOverviewTable;

@@ -34,23 +34,25 @@ const Cars: React.FC = () => {
         getAllCars();
     }, []);
 
-    const handleFilterChange = (filter: { field: string, value: string }) => {
-        if (!filter.field || !filter.value) {
-            setFilteredCars(cars);
-            return;
-        }
+    // const handleFilterChange = (filter: { field: string, value: string }) => {
+    //     if (!filter.field || !filter.value) {
+    //         setFilteredCars(cars);
+    //         return;
+    //     }
 
-        const filtered = cars.filter(car => {
-            const carValue = car[filter.field as keyof Car];
-            if (carValue === undefined) return false;
+    //     const filtered = cars.filter(car => {
+    //         const carValue = car[filter.field as keyof Car];
+    //         if (carValue === undefined) return false;
             
-            return String(carValue)
-                .toLowerCase()
-                .includes(filter.value.toLowerCase());
-        });
+    //         return String(carValue)
+    //             .toLowerCase()
+    //             .includes(filter.value.toLowerCase());
+    //     });
 
-        setFilteredCars(filtered);
-    };
+    //     setFilteredCars(filtered);
+    // };
+
+    const role = JSON.parse(sessionStorage.getItem("loggedInUser") || "{}")?.role;
 
     return (
         <>
@@ -63,9 +65,9 @@ const Cars: React.FC = () => {
                     {cars && (
                         <>
                             <h2>Available cars</h2>
-                            <CarFilter onFilterChange={handleFilterChange} />
+                            {/* <CarFilter onFilterChange={handleFilterChange} /> */}
                             <CarsOverviewTable cars={filteredCars} />
-                            <button onClick={() => setButtonPopup(true)} className="add-car-btn">Add new car</button>
+                            {role === 'ADMIN' &&<button onClick={() => setButtonPopup(true)} className="add-car-btn">Add new car</button>}
                         </>
                     )}
                 </section>
