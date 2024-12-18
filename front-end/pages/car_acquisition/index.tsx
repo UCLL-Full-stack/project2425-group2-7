@@ -6,7 +6,7 @@ import Header from "@components/header";
 import PopUp from "@components/PopUp";
 import Home from "../index";
 import CarsOverviewTable from "@components/cars/CarsOverview";
-import CarFilter from "@components/cars/CarFilter";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const Cars: React.FC = () => {
     const [cars, setCars] = useState<Array<Car>>([]);
@@ -78,5 +78,14 @@ const Cars: React.FC = () => {
         </>
     )
 }
+
+export const getServerSideProps = async(context: { locale: any; }) =>{
+    const {locale} = context
+    return{
+        props:{
+            ...(await serverSideTranslations(locale ?? "en", ["common"]))
+        },
+    };
+};
 
 export default Cars;

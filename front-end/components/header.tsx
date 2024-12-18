@@ -1,6 +1,8 @@
+import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Language from "./Language";
 interface UserData {
     token: string;
     fullName: string;
@@ -12,13 +14,9 @@ const Header: React.FC = () => {
     const router = useRouter();
     const [loggedInUser, setLoggedInUser] = useState<string>("");
     const [userData, setUserData] = useState<UserData | null>(null);
+    const { t } = useTranslation();
 
-    // useEffect(() => {
-    //     const user = sessionStorage.getItem("loggedInUser");
-    //     if (user) {
-    //         setLoggedInUser(user);
-    //     }
-    // }, []);
+
 
     useEffect(() => {
             const storedUser = sessionStorage.getItem("loggedInUser");
@@ -41,22 +39,22 @@ const Header: React.FC = () => {
 
     return (
         <header className="header">
-            <div className="header__logo">Dealership</div>
+            <div className="header__logo">{t("header.logo")}</div>
             <nav className="header__nav">
                 <Link href="/" className="header__link">
-                    Home
+                    {t("header.nav.home")}
                 </Link>
                 <Link href="/car_acquisition" className="header__link">
                     Cars
                 </Link>
-                {(loggedInUser && userData?.role === 'ADMIN') && <Link href={"/trades"}>View Trades</Link>}
+                {(loggedInUser && userData?.role === 'ADMIN') && <Link href={"/trades"}>{t("header.nav.view_trades")}</Link>}
                 {(loggedInUser && userData?.role === 'CUSTOMER') &&
                  <Link href="/trade-in" className="header__link">
-                    Trade your car
+                    {t("header.nav.trade_in")}
                 </Link>}
                 {!loggedInUser && (
                     <Link href="/login" className="header__link">
-                        Login
+                        {t("header.nav.login")}
                     </Link>
                 )}
                 {loggedInUser && (
@@ -65,14 +63,16 @@ const Header: React.FC = () => {
                         className="header__link"
                         onClick={handleLogout}
                     >
-                        Logout
+                        {t("header.nav.logout")}
                     </a>
                 )}
                 {loggedInUser && (
                     <div className="header__user">
-                        Welcome
+                        {t("header.nav.welcome")}
                     </div>
                 )}
+                <Language />
+
             </nav>
         </header>
     );

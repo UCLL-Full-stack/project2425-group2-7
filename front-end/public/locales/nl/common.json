@@ -1,0 +1,21 @@
+{
+    "app.title": "Autodealer",
+    "header":{
+        "logo":"Dealerschap",
+        "nav":{
+            "home": "Thuis",
+            "cars":"Auto's",
+            "view_trades": "Bekijk transacties",
+            "trade_in": "Handel uw auto",
+            "login":"inloggen",
+            "logout":"Uitloggen",
+            "welcome": "welkom"
+        }
+    },
+    "home":{
+        "header": "Welkom bij de Naustyne-dealer",
+        "ptext": "Ontdek ons ​​uitgebreide aanbod voertuigen. Wij bieden de beste prijzen en een zorgeloze winkelervaring. Of u nu op zoek bent naar een nieuwe of gebruikte auto, ons team staat klaar om u te helpen de perfecte match te vinden.",
+        "button": "Toon loyaliteitskaartstatus"
+    },
+    "language":"Tal"
+}

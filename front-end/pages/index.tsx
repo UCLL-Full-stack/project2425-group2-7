@@ -2,6 +2,8 @@ import Head from 'next/head'
 import Header from '@components/header'
 import React, { useState, useEffect } from 'react'
 import PopUp from '@components/LoyaltycardPopIp';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 
 interface UserData {
   token: string;
@@ -14,6 +16,8 @@ const Home: React.FC = () => {
     const [showPopup, setShowPopup] = useState(false);
     const [userData, setUserData] = useState<UserData | null>(null);
     const userTier = 'Gold';
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         const storedUser = sessionStorage.getItem("loggedInUser");
@@ -36,10 +40,9 @@ const Home: React.FC = () => {
             </Head>
             <Header />
             <main className="container mx-auto px-4 py-8">
-                <h1 className="text-4xl font-bold mb-6">Welcome to the Naustyne Dealership</h1>
+                <h1 className="text-4xl font-bold mb-6">{t("home.header")}</h1>
                 <p className="text-lg text-gray-700 mb-8">
-                    Discover our extensive selection of vehicles. We offer the best prices and a hassle-free shopping experience.
-                    Whether you are looking for a new or used car, our team is here to help you find the perfect match.
+                    {t("home.ptext")}
                 </p>
                 {(userData?.role === "CUSTOMER") && (
                     <button 
@@ -47,7 +50,7 @@ const Home: React.FC = () => {
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded
                                  transition-colors duration-200"
                     >
-                        Show Loyalty Card Status
+                        {t("home.button")}
                     </button>
                 )}
                 
@@ -59,6 +62,14 @@ const Home: React.FC = () => {
             </main>
         </>
     );
+};
+export const getServerSideProps = async(context: { locale: any; }) =>{
+    const {locale} = context
+    return{
+        props:{
+            ...(await serverSideTranslations(locale ?? "en", ["common"]))
+        },
+    };
 };
 
 export default Home;
