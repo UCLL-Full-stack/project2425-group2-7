@@ -32,6 +32,7 @@ const getAllCars = async (): Promise<Car[]> => {
     }
 }
 
+
 export default {
     addCar,
     getAllCars

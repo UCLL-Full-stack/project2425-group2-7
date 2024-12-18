@@ -1,4 +1,5 @@
 import {type} from "node:os";
+import {Admin} from "../model/admin";
 
 type Status = 'IN_STOCK' | 'SOLD' | 'RESERVED';
 type CarInput = {
@@ -41,6 +42,10 @@ type LoyaltyCard = {
     discountPercentage: number;
     validity: Date;
     totalSpent: number;
+}
+
+type DeleteAppointmentInput = {
+    id: number;
 }
 
 type Car = { // when needing raw Car object
@@ -88,6 +93,26 @@ type Transaction = { // when needing raw transaction object
     customer: Customer
 }
 
+type Appointment = {
+    id: number;
+    date: Date;
+    customers: Customer[];
+    admins: Admin[];
+}
+type AdminInput = {
+    userId: number;
+}
+type AppointmentInput = {
+    date: Date;
+    customerId: number;
+    adminId: number;
+}
+
+type PutAdminToAppointmentInput = {
+    adminId: number;
+    appointmentId: number;
+}
+
 type Role = 'ADMIN' | 'CUSTOMER';
 type TypeTransaction = 'P'| 'S' | 'T';
 type Tier = 'Bronze' | 'Silver' | 'Gold' | 'Platinum';
@@ -106,7 +131,12 @@ export {
     Customer,
     Car,
     LoyaltyCard,
-    User
+    User,
+    Appointment,
+    AppointmentInput,
+    AdminInput,
+    PutAdminToAppointmentInput,
+    DeleteAppointmentInput
 }
 
 

@@ -9,6 +9,8 @@ import customerRouter from "./controller/customer.routes";
 import transactionRouter from "./controller/transaction.routes";
 import {userRouter} from "./controller/user.routes";
 import loyaltyCardRouter from "./controller/loyaltyCard.routes";
+import adminRouter from "./controller/admin.routes";
+import appointmentRouter from "./controller/appointment.routes";
 
 const app = express();
 dotenv.config();
@@ -21,6 +23,8 @@ app.use('/car_acquisition', carRouter);
 app.use('/customers', customerRouter);
 app.use('/transactions', transactionRouter);
 app.use('/users', userRouter);
+app.use('/admins', adminRouter);
+app.use('/appointment', appointmentRouter)
 app.use('/loyaltyCards', loyaltyCardRouter);
 app.get('/status', (req, res) => {
     res.json({ message: 'Back-end is running...' });
