@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 interface UserData {
     token: string;
@@ -8,6 +9,7 @@ interface UserData {
   }
 
 const Header: React.FC = () => {
+    const router = useRouter();
     const [loggedInUser, setLoggedInUser] = useState<string>("");
     const [userData, setUserData] = useState<UserData | null>(null);
 
@@ -34,6 +36,7 @@ const Header: React.FC = () => {
     const handleLogout = () => {
         sessionStorage.removeItem("loggedInUser");
         setLoggedInUser("");
+        router.push("/");
     };
 
     return (
