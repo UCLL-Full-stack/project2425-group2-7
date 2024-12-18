@@ -27,10 +27,12 @@ const appointmentRouter = express.Router();
  *         date:
  *           type: string
  *           format: date-time
- *         customerUsername:
- *           type: string
- *         adminUsername:
- *           type: string
+ *         customerId:
+ *           type: number
+ *           format: int64
+ *         adminId:
+ *           type: number
+ *           format: int64
  *     User:
  *       type: object
  *       properties:

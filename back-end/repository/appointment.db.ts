@@ -13,7 +13,7 @@ const getAllAppointments = async (): Promise<Appointment[]> => {
                         user: true,
                     }
                 },
-                customer: {
+                customers: {
                     include: {
                         user: true,
                         loyaltyCard: true,
@@ -36,7 +36,7 @@ const addAppointment = async (date: Date, customer: Customer, admins: Admin[]): 
         const appointmentPrisma = await database.appointment.create({
             data: {
                 date: date,
-                customer: {
+                customers: {
                     connect: {id: customer.id}
                 },
                 admins: {
@@ -44,7 +44,7 @@ const addAppointment = async (date: Date, customer: Customer, admins: Admin[]): 
                 }
             },
             include: {
-                customer: {
+                customers: {
                     include: {
                         loyaltyCard: true,
                         cars: true,
@@ -58,6 +58,7 @@ const addAppointment = async (date: Date, customer: Customer, admins: Admin[]): 
             }
         })
         return Appointment.from(appointmentPrisma);
+
     }catch(error) {
         console.log(error)
         throw error;

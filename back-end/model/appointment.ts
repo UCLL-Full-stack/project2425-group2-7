@@ -1,55 +1,57 @@
-import {Admin} from "./admin";
-import {Customer} from "./customer";
 
 import {
     Appointment as AppointmentPrisma,
-    Customer as CustomerPrisma,
     Admin as AdminPrisma,
+    Customer as CustomerPrisma,
+    User as UserPrisma,
+    LoyaltyCard as LoyaltyCardPrisma,
+    Car as CarPrisma
 } from '@prisma/client';
-import {Car as CarPrisma, LoyaltyCard as LoyaltyCardPrisma, User as UserPrisma} from "@prisma/client";
+import {Customer} from "./customer";
+import {Admin} from "./admin";
 
+/**
+ * please for the love of god do not touch this code or its relations as this is running on hopes and dreams
+ * the desperation hit the man and thus many things were adjusted with an educated guess of whether it would work
+ * thanks,
+ * naphat
+ */
 export class Appointment {
     readonly id?: number;
-    private customer: Customer;
-    private admins: Admin[];
-    private date: Date;
+    readonly date: Date;
+    readonly customers: Customer[];
+    readonly admins: Admin[];
 
-    static from({id, customer, admins, date}: AppointmentPrisma & {
-        customer: CustomerPrisma & {
-            loyaltyCard: LoyaltyCardPrisma | null,
-            cars: CarPrisma[],
-            user: UserPrisma
-        },
-        admins: (AdminPrisma & {
+    static from({id, date, customers, admins}: AppointmentPrisma & {
+        customers: (CustomerPrisma & {
             user: UserPrisma,
-        })[]}) {
+            loyaltyCard: LoyaltyCardPrisma|null,
+            cars: CarPrisma[]
+        })[],
+        admins: (AdminPrisma & {
+            user: UserPrisma
+        })[],
+    }) {
         return new Appointment({id,
-            customer: Customer.from(customer),
+            date: date,
+            customers: customers.map((customer) => Customer.from(customer)),
             admins: admins.map((admin) => Admin.from(admin)),
-            date: date
         });
     }
 
     constructor(appointment: {
         id?: number,
-        customer: Customer,
+        customers: Customer[],
         admins: Admin[],
         date: Date}) {
         this.id = appointment.id;
-        this.customer = appointment.customer;
-        this.admins = appointment.admins;
         this.date = appointment.date;
+        this.customers = appointment.customers;
+        this.admins = appointment.admins;
     }
 
     getDate(): Date {
         return this.date;
     }
 
-    getAdmins(): Admin[] {
-        return this.admins;
-    }
-
-    getCustomer(): Customer {
-        return this.customer;
-    }
 }

@@ -92,17 +92,16 @@ type Transaction = { // when needing raw transaction object
 type Appointment = {
     id: number;
     date: Date;
-    customer: Customer;
+    customers: Customer[];
     admins: Admin[];
 }
 type AdminInput = {
-    userId?: number;
-    username?: number;
+    userId: number;
 }
 type AppointmentInput = {
     date: Date;
-    customerUsername: string;
-    adminUsername: string;
+    customerId: number;
+    adminId: number;
 }
 
 type Role = 'ADMIN' | 'CUSTOMER';

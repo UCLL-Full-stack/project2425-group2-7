@@ -16,7 +16,7 @@ const findCustomerByUserId = async (id: number | undefined): Promise<Customer | 
     try {
         const customer = await database.customer.findUnique({
             where: {
-                userId: id,
+                id: id,
             },
             include: {loyaltyCard: true, cars: true, user: true}
         })

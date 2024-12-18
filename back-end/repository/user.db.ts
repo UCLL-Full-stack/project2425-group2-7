@@ -85,6 +85,23 @@ const findAdminByUsername = async (username: string): Promise<User|null> => {
     }
 }
 
+const findAdminById = async (userId: number): Promise<User|null> => {
+    try{
+        const user = await database.user.findUnique({
+            where: {
+                id: userId,
+                role: "ADMIN"
+            }
+        })
+        if (!user) {
+            return null
+        }
+        return User.from(user)
+    }catch(error) {
+        throw error;
+    }
+}
+
 
 export default {
     getAllUsers,
@@ -92,4 +109,5 @@ export default {
     getUserByUsername,
     findAdminByUsername,
     findCustomerByUsername,
+    findAdminById,
 }
