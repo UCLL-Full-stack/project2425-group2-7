@@ -1,5 +1,5 @@
 import appointmentDb from "../repository/appointment.db";
-import { AppointmentInput} from "../types";
+import {AppointmentInput, DeleteAppointmentInput, PutAdminToAppointmentInput} from "../types";
 import userDb from "../repository/user.db";
 import customersDb from "../repository/customers.db";
 import adminDb from "../repository/admin.db";
@@ -56,10 +56,36 @@ const addAppointment = async(appointmentInput: AppointmentInput): Promise<Appoin
         console.log(error);
         throw error;
     }
-
-
-
-
 }
 
-export default { getAllAppointments, addAppointment };
+const deleteAppointment = async(deleteAppointmentInput: DeleteAppointmentInput) => {
+    try {
+        const appointment = await appointmentDb.deleteAppointment(deleteAppointmentInput);
+        if (!appointment) {
+            throw new Error("Appointment not found")
+        }
+        return appointment;
+    } catch(error) {
+        console.log(error);
+        throw error;
+    }
+}
+
+const putAdminToAppointment = async(input: PutAdminToAppointmentInput): Promise<Appointment> => {
+    try {
+        const admin = await adminDb.findAdminByUserId(input.adminId);
+        if (!admin) {
+            throw new Error("Admin not found")
+        }
+        const appointment = await appointmentDb.putAdminToAppointment(input);
+        if (!appointment) {
+            throw new Error("Appointment or admin not found")
+        }
+        return appointment;
+    } catch(error) {
+        console.log(error);
+        throw error;
+    }
+}
+
+export default { getAllAppointments, addAppointment, deleteAppointment, putAdminToAppointment };

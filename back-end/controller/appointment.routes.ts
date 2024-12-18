@@ -1,6 +1,6 @@
 import express from "express";
 import AppointmentService from "../service/appointment.service";
-import {AppointmentInput} from "../types";
+import {AppointmentInput, DeleteAppointmentInput, PutAdminToAppointmentInput} from "../types";
 import appointmentService from "../service/appointment.service";
 
 const appointmentRouter = express.Router();
@@ -9,6 +9,21 @@ const appointmentRouter = express.Router();
  * @swagger
  * components:
  *   schemas:
+ *     DeleteAppointmentInput:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: number
+ *           format: int64
+ *     PutAdminToAppointmentInput:
+ *       type: object
+ *       properties:
+ *         adminId:
+ *           type: number
+ *           format: int64
+ *         appointmentId:
+ *           type: number
+ *           format: int64
  *     Customer:
  *         type: object
  *         properties:
@@ -119,6 +134,77 @@ appointmentRouter.post('/add_appointment', async (req: express.Request, res: exp
         const result = await appointmentService.addAppointment(appointmentInput);
         res.status(200).json(result);
     } catch(error) {
+        console.log("Could not catch object in controller: " + error)
+        throw error;
+    }
+})
+
+/**
+ * @swagger
+ * /appointment/delete_appointment:
+ *   delete:
+ *     summary: Delete an appointment by ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/DeleteAppointmentInput'
+ *
+ *     responses:
+ *       200:
+ *         description: The deleted appointment
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Appointment'
+ *       400:
+ *         description: Invalid request or missing parameters
+ *       404:
+ *         description: Appointment not found
+ */
+
+appointmentRouter.delete('/delete_appointment', async (req: express.Request, res: express.Response) => {
+    try {
+        const appointmentInputDelete = req.body as DeleteAppointmentInput;
+        const result = await appointmentService.deleteAppointment(appointmentInputDelete);
+        res.status(200).json(result);
+    } catch(error) {
+        console.log("Could not catch object in controller: " + error)
+        throw error;
+    }
+})
+
+/**
+ * @swagger
+ * /appointment/update_appointment:
+ *   put:
+ *     summary: Edit the admin from an appointment
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/PutAdminToAppointmentInput'
+ *
+ *     responses:
+ *       200:
+ *         description: The updated appointment
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Appointment'
+ *       400:
+ *         description: Invalid request or missing parameters
+ *       404:
+ *         description: Appointment not found
+ */
+appointmentRouter.put('/update_appointment', async (req: express.Request, res: express.Response) => {
+    try {
+        const input = req.body as PutAdminToAppointmentInput;
+        const result = await appointmentService.putAdminToAppointment(input)
+        res.status(200).json(result);
+    } catch (error) {
         console.log("Could not catch object in controller: " + error)
         throw error;
     }

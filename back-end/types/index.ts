@@ -44,6 +44,10 @@ type LoyaltyCard = {
     totalSpent: number;
 }
 
+type DeleteAppointmentInput = {
+    id: number;
+}
+
 type Car = { // when needing raw Car object
     id: number;
     chassisNumber: number;
@@ -104,6 +108,11 @@ type AppointmentInput = {
     adminId: number;
 }
 
+type PutAdminToAppointmentInput = {
+    adminId: number;
+    appointmentId: number;
+}
+
 type Role = 'ADMIN' | 'CUSTOMER';
 type TypeTransaction = 'P'| 'S' | 'T';
 type Tier = 'Bronze' | 'Silver' | 'Gold' | 'Platinum';
@@ -126,6 +135,8 @@ export {
     Appointment,
     AppointmentInput,
     AdminInput,
+    PutAdminToAppointmentInput,
+    DeleteAppointmentInput
 }
 
 
