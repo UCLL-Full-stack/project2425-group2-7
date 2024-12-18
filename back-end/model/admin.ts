@@ -8,7 +8,7 @@ export class Admin {
     private id?: number;
     private user: User;
 
-    from({id, user}: AdminPrisma & {user: UserPrisma}) {
+    static from({id, user}: AdminPrisma & {user: UserPrisma}) {
         return new Admin({
             id,
             user: User.from(user)

@@ -25,6 +25,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// extra appointment model to have MTM relationship
+
 model Car {
   id            Int          @id @unique @default(autoincrement())
   chassisNumber Int          @unique
@@ -66,12 +68,15 @@ model Customer {
   cars            Car[]
   userId          Int           @unique
   user            User          @relation(fields: [userId], references: [id])
+  appointment     Appointment?
 }
 
 model Admin {
   id     Int  @id @default(autoincrement())
   userId Int  @unique
   user   User @relation(fields: [userId], references: [id])
+
+  Appointment Appointment[] @relation("AdminAppointments")
 }
 
 model User {
@@ -85,4 +90,12 @@ model User {
 
   customer Customer?
   admin    Admin?
+}
+
+model Appointment {
+  id         Int      @id @default(autoincrement())
+  date       DateTime
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId Int      @unique
+  admins     Admin[]  @relation("AdminAppointments")
 }

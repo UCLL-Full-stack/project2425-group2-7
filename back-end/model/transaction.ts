@@ -16,7 +16,13 @@ export class Transaction{
     readonly customer: Customer;
 
 
-    static from ({id, typeTransaction: typeTransaction, date, cars=[], customer}: TransactionPrisma & {cars: CarPrisma[], customer: CustomerPrisma & {loyaltyCard: LoyaltyCardPrisma | null, cars: CarPrisma[], user: UserPrisma}}) {
+    static from ({id,
+         typeTransaction: typeTransaction, date, cars=[], customer}: TransactionPrisma & {
+        cars: CarPrisma[],
+        customer: CustomerPrisma & {
+            loyaltyCard: LoyaltyCardPrisma | null,
+            cars: CarPrisma[],
+            user: UserPrisma}}) {
         return new Transaction({id,
             type: typeTransaction as TypeTransaction,
             date,
