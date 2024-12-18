@@ -1,0 +1,22 @@
+{
+    "app.title": "Car Dealership",
+    "header":{
+        "logo":"Dealership",
+        "nav":{
+            "home": "Home",
+            "cars":"Cars",
+            "view_trades": "View Trades",
+            "trade_in": "Trade your car",
+            "login":"Login",
+            "logout":"Logout",
+            "welcome": "Welcome"
+        }
+    },
+    "home":{
+        "header": "Welcome to the Naustyne Dealership",
+        "ptext": "Discover our extensive selection of vehicles. We offer the best prices and a hassle-free shopping experience. Whether you are looking for a new or used car, our team is here to help you find the perfect match.",
+        "button": "Show Loyalty Card Status"
+    },
+    "language": "language"
+
+}
