@@ -1,5 +1,6 @@
 import {User} from "../model/user";
 import userDb from "../repository/user.db";
+import customersDb from "../repository/customers.db";
 import {AuthenticationResponse, UserInputLogin, UserInputRegister} from "../types";
 import jwt from '../util/jwt';
 
@@ -21,7 +22,6 @@ const registerUser = async (userInputRegister: UserInputRegister): Promise<User>
             ...userInputRegister,
             password: hashedPassword
         };
-
 
         return await userDb.registerUserDb(newUser);
     } catch (error) {

@@ -40,7 +40,20 @@ const registerUserDb = async ({username, firstName, lastName, email, password, r
                 password,
                 role
             }
-        })
+        });
+        if(role === 'CUSTOMER'){
+                await database.customer.create({
+                    data:{
+                        userId: userPrisma.id
+                    }
+                })
+            } else if(role === 'ADMIN') {
+                await database.admin.create({
+                    data: {
+                        userId: userPrisma.id
+                    }
+                });
+            }
         return User.from(userPrisma)
     } catch (error) {
         throw new Error("Problem with creating in user repository")
