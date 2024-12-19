@@ -5,7 +5,7 @@ import {
 
 export class User {
 
-    readonly id?: number;
+    readonly id: number;
     readonly username: string;
     readonly firstName: string;
     readonly lastName: string;
@@ -25,7 +25,7 @@ export class User {
         })
     }
     constructor(user: {
-        id?: number;
+        id: number;
         username: string;
         firstName: string;
         lastName: string;
@@ -42,7 +42,7 @@ export class User {
         this.password = user.password;
         this.role = user.role;
     }
-    getId(): number | undefined {
+    getId(): number {
         return this.id;
     }
     getRole(): Role {

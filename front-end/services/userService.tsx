@@ -1,7 +1,7 @@
-import {User} from '@types';
+import {User, UserInput} from '@types';
 import {UserInputLogin} from "@types";
 
-const registerUser = async (user: User) =>{
+const registerUser = async (user: UserInput) =>{
     return fetch(process.env.NEXT_PUBLIC_API_URL + "/users/register", {
         method: "POST",
         headers: {

@@ -56,6 +56,7 @@ const UserLoginForm: React.FC = () => {
         fullName: userData.fullName,
         username: userData.username,
         role: userData.role,
+        id: userData.id,
       }
       ));
 

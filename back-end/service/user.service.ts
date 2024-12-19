@@ -4,6 +4,8 @@ import {AuthenticationResponse, UserInputLogin, UserInputRegister} from "../type
 import jwt from '../util/jwt';
 
 import bcrypt from "bcrypt";
+import customersDb from "../repository/customers.db";
+import adminDb from "../repository/admin.db";
 
 const getAllUsers = async (): Promise<User[]> => {
     return await userDb.getAllUsers();
@@ -22,8 +24,14 @@ const registerUser = async (userInputRegister: UserInputRegister): Promise<User>
             password: hashedPassword
         };
 
+        const registeredUser = await userDb.registerUserDb(newUser);
+        if (registeredUser.role == "CUSTOMER"){
+            await customersDb.addCustomerByUserId(registeredUser.id);
+        } else {
+            await adminDb.addAdmin(registeredUser.id);
+        }
+        return registeredUser
 
-        return await userDb.registerUserDb(newUser);
     } catch (error) {
         console.error('Registration error:', error);
         throw error;
@@ -36,8 +44,9 @@ const login = async({username, password}: UserInputLogin): Promise<Authenticatio
         throw new Error("User does not exist")
     }
     const result = await bcrypt.compare(password, user.getPassword());
-    const token = jwt.generateJwtToken({username: username, role: user.getRole()})
+    const token = jwt.generateJwtToken({username: username, role: user.getRole(), userId: user.id})
 
+    console.log("User id: "+user.id)
 
 
     if (!result) {
@@ -49,6 +58,8 @@ const login = async({username, password}: UserInputLogin): Promise<Authenticatio
         username: username,
         fullName: `${user.firstName} ${user.lastName}`,
         role: user.role,
+        id: user.getId()
+
     }
 }
 

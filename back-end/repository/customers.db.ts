@@ -12,11 +12,11 @@ const getAllCustomers = async (): Promise<Customer[]> => {
     }
 }
 
-const findCustomerByUserId = async (id: number | undefined): Promise<Customer | null> => {
+const findCustomerByUserId = async (id: number): Promise<Customer | null> => {
     try {
         const customer = await database.customer.findUnique({
             where: {
-                id: id,
+                userId: id,
             },
             include: {loyaltyCard: true, cars: true, user: true}
         })
@@ -30,7 +30,33 @@ const findCustomerByUserId = async (id: number | undefined): Promise<Customer | 
     }
 }
 
+const addCustomerByUserId = async (userId: number) => {
+    try {
+        const customerPrisma = await database.customer.create({
+            data: {
+                user: {
+                    connect: {id: userId}
+                },
+                cars: {
+                    createMany: {
+                        data: [],
+                    },
+                },
+            },
+            include: {
+                user: true,
+                cars: true,
+                loyaltyCard: true
+            }
+        })
+        return Customer.from(customerPrisma);
+    } catch(error) {
+        throw new Error("Problem with fetching in customer repository: "+error)
+    }
+}
+
 export default {
     getAllCustomers,
     findCustomerByUserId,
+    addCustomerByUserId,
 }

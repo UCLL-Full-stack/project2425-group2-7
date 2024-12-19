@@ -17,7 +17,22 @@ export type Transaction = {
     customer: Customer;
 };
 
+export type Admin = {
+    id: number;
+    user: User;
+}
 
+export type Appointment = {
+    id: number;
+    date: Date;
+    customers: Customer[];
+    admins: Admin[];
+}
+export type AppointmentInput = {
+    adminId: number;
+    date: Date;
+    customerId: number;
+}
 
 export type Car = {
     chassisNumber: number;
@@ -45,7 +60,14 @@ export type User = { // to be used for fetching
     password: string;
     role: Role;
 }
-
+export type UserInput = { // to be used for input
+    username: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    role: Role;
+}
 export type UserInputLogin = {
     username: string;
     password: string;

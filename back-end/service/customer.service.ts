@@ -4,4 +4,13 @@ const getAllCustomers = async () => {
     return await customersDb.getAllCustomers();
 }
 
-export default {getAllCustomers}
+const getCustomerByUserId = async (id: number) => {
+    try {
+        return customersDb.findCustomerByUserId(id)
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
+export default {getAllCustomers, getCustomerByUserId}

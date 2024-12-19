@@ -143,6 +143,7 @@ userRouter.post('/login', async (req: Request, res: express.Response, next:NextF
         const userInputLogin = req.body as UserInputLogin;
         const authResponse = await userService.login(userInputLogin);
         res.status(200).json(authResponse);
+        console.log(authResponse)
     } catch(error) {
         next(error);
     }

@@ -104,4 +104,33 @@ customerRouter.get('/', async (req: express.Request, res: express.Response) => {
     }
 })
 
+/**
+ * @swagger
+ * /customers/{id}:
+ *   get:
+ *     summary: get customer by USER ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: returned customer by ID
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Customer'
+ */
+customerRouter.get('/:id', async (req: express.Request, res: express.Response) => {
+    try {
+        const id = parseInt(req.params.id);
+        const customer = await customerService.getCustomerByUserId(id);
+        res.status(200).json(customer);
+    }catch(error) {
+        throw new Error("Could not catch object in controller: " + error)
+    }
+})
+
 export default customerRouter;

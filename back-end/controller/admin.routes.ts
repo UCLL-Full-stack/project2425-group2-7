@@ -90,6 +90,34 @@ adminRouter.post('/add', async (req: express.Request, res: express.Response) => 
         throw error;
     }
 })
+/**
+ * @swagger
+ * /admins/{id}:
+ *   get:
+ *     summary: get admin by USER ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: returned admin by ID
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Admin'
+ */
+adminRouter.get('/:id', async (req: express.Request, res: express.Response) => {
+    try {
+        const admin = await adminService.getAdminByUserId(Number(req.params.id));
+        res.status(200).json(admin);
+    } catch(error) {
+        console.log("Could not catch object in controller: " + error)
+        throw error;
+    }
+})
 
 
 

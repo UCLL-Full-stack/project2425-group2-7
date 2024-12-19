@@ -71,11 +71,13 @@ type AuthenticationResponse = {
     username: string;
     fullName: string;
     role: Role;
+    id: number;
 }
 
 type JWTPayload = { // role decides whats shown
     username: string;
     role?: Role
+    userId?: number;
 }
 
 type TransactionInput = {

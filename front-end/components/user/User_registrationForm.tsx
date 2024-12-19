@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { useState } from "react";
 import userService from "@services/userService";
+import {Role, UserInput} from "@types";
 
 interface RegistrationFormProps {
   isOpen: boolean;
@@ -13,7 +14,7 @@ const User_registrationForm: React.FC<RegistrationFormProps> = ({ isOpen, onClos
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState<Role>();
   const [usernameError, setUserNameError] = useState<string>();
   const [passwordError, setPasswordError] = useState<string>();
   const [firstNameError, setFirstNameError] = useState<string>();
@@ -109,13 +110,13 @@ const User_registrationForm: React.FC<RegistrationFormProps> = ({ isOpen, onClos
         <h2 className="text-2xl font-bold mb-6">Register New User</h2>
 <form onSubmit={ async (event: React.FormEvent<HTMLFormElement>) => {
   event.preventDefault();
-  const userData = {
+  const userData: UserInput = {
     username: username,
     firstName: firstName,
     lastName: lastName,
     email: email,
     password: password,
-    role: role.toUpperCase()
+    role: role?.toUpperCase() as Role
   }
 
   console.log('Sending user data:', userData);
@@ -194,7 +195,7 @@ const User_registrationForm: React.FC<RegistrationFormProps> = ({ isOpen, onClos
             <select
               id="roleInput"
               value={role}
-              onChange={(event) => setRole(event.target.value)}
+              onChange={(event) => setRole(event.target.value as Role)}
               className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue:500 block w-full p-2.5"
             >
               <option value="">Select a role</option>

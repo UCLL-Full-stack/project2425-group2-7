@@ -20,7 +20,7 @@ const findAdminByUserId = async (id: number | undefined)=> {
     try {
         const admin = await database.admin.findUnique({
             where: {
-                userId: id
+                id: id
             },
             include: {
                 user: true

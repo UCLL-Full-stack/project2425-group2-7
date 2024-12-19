@@ -18,7 +18,20 @@ const addAdmin = async (userId: number) => {
     }
 }
 
+const getAdminByUserId = async (userId: number) => {
+    try {
+        const admin = await userDb.findAdminById(userId);
+        if (!admin) {
+            throw new Error("Admin not found");
+        }
+        return admin;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export default {
     getAllAdmins,
-    addAdmin
+    addAdmin,
+    getAdminByUserId
 }
