@@ -11,8 +11,19 @@ import {userRouter} from "./controller/user.routes";
 import loyaltyCardRouter from "./controller/loyaltyCard.routes";
 import adminRouter from "./controller/admin.routes";
 import appointmentRouter from "./controller/appointment.routes";
+import helmet from 'helmet';
+
 
 const app = express();
+app.use(helmet())
+
+// below code is just for experimenting incase i see something similar during the exam (Im just a boy)
+// app.use(helmet.contentSecurityPolicy(
+//     {directives: {
+//         connectSrc: ['sefl', 'https://api.ucll.be'],
+//     },}
+// ))
+
 dotenv.config();
 const port = process.env.APP_PORT || 3000;
 

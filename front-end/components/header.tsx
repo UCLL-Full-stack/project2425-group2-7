@@ -45,7 +45,7 @@ const Header: React.FC = () => {
                     {t("header.nav.home")}
                 </Link>
                 <Link href="/car_acquisition" className="header__link">
-                    Cars
+                    {t("header.nav.cars")}
                 </Link>
                 {(loggedInUser && userData?.role === 'ADMIN') && <Link href={"/trades"}>{t("header.nav.view_trades")}</Link>}
                 {(loggedInUser && userData?.role === 'CUSTOMER') &&
