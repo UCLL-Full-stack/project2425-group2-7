@@ -10,7 +10,7 @@ const getAdmins = async () => {
 }
 
 const addAppointment = async (input: AppointmentInput) => {
-    console.log("Payload sent to backend:-----------------------------------------------------------------------", input);
+    console.log("Customer id in FRONTEND", input.customerId);
     return await fetch(process.env.NEXT_PUBLIC_API_URL + "/appointment/add_appointment", {
         method: "POST",
         headers: {

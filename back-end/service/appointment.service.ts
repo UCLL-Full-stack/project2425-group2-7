@@ -21,7 +21,8 @@ const addAppointment = async(appointmentInput: AppointmentInput): Promise<Appoin
     // then see if there is already an appointment for that day
     let adminsToPush: Admin[] = [];
     const admin = await adminDb.findAdminByUserId(appointmentInput.adminId);
-    const customer = await customersDb.findCustomerByUserId(appointmentInput.customerId);
+    console.log("Customer id in service: ", appointmentInput.customerId)
+    const customer = await customersDb.findCustomerById(appointmentInput.customerId);
 
     if (!admin) {
         throw new Error("Admin not found")

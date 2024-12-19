@@ -55,8 +55,27 @@ const addCustomerByUserId = async (userId: number) => {
     }
 }
 
+const findCustomerById = async (id: number): Promise<Customer|null> => {
+    try {
+        const customer = await database.customer.findUnique({
+            where: {
+                id: id,
+            },
+            include: {loyaltyCard: true, cars: true, user: true}
+        })
+        if (!customer) {
+            return null
+        }
+        return Customer.from(customer);
+    }catch (error) {
+        console.log(error);
+        throw new Error("Problem with fetching in customer repository: "+error)
+    }
+}
+
 export default {
     getAllCustomers,
     findCustomerByUserId,
     addCustomerByUserId,
+    findCustomerById,
 }

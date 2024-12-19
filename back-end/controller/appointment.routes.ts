@@ -132,6 +132,7 @@ appointmentRouter.post('/add_appointment', async (req: express.Request, res: exp
     try {
         const appointmentInput = req.body as AppointmentInput;
         const result = await appointmentService.addAppointment(appointmentInput);
+        console.log("customer id in controller:", appointmentInput.customerId);
         res.status(200).json(result);
     } catch(error) {
         console.log("Could not catch object in controller: " + error)

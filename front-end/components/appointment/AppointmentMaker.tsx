@@ -20,7 +20,7 @@ const AppointmentMaker: React.FC<Props> = ({admins}) => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const response = await customerService.findCustomerByUserId(parseInt(loggedInId));
+        const response = await customerService.findCustomerByUserId(parseInt(loggedInId)); // NEEDS ID <- USERID
         const customer = await response.json()
         console.log(customer);
 
