@@ -23,9 +23,20 @@ const loginUser = ({username, password}: UserInputLogin) => {
     });
 };
 
+const getUsers = () => {
+    return fetch(process.env.NEXT_PUBLIC_API_URL + "/users", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+
+    })
+}
+
 const userService= {
     registerUser,
     loginUser,
+    getUsers
     
 
 }

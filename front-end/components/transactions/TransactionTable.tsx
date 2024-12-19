@@ -42,7 +42,7 @@ const TradeInOverviewTable: React.FC<Props> = ({transactionTrades}: Props) => {
                                     ))}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {transaction.date.getDate()}
+                                    {transaction.date.valueOf()}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                     {transaction.customer.user.username}
