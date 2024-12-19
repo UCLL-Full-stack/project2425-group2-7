@@ -4,18 +4,42 @@ import React, { useState, useEffect } from 'react'
 import PopUp from '@components/LoyaltycardPopIp';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
-
+import UserTestingTable from "@components/UserTestingTable";
+import UserService from "@services/userService";
+import {User} from "@types";
 interface UserData {
   token: string;
   fullName: string;
   username: string;
   role: string;
 }
+const users: User[] = [
+    {id: 1000, password: "kong", username: "kong", email: "kong@", role: "ADMIN", firstName:"kong", lastName: "kong"},
+    {id: 2000, password: "wamie", username: "wamie", email: "wamie@", role: "CUSTOMER", firstName:"wamie", lastName: "wamie"}
+
+]
+
 
 const Home: React.FC = () => {
     const [showPopup, setShowPopup] = useState(false);
     const [userData, setUserData] = useState<UserData | null>(null);
     const userTier = 'Gold';
+    const [error, setError] = useState<string>();
+
+    // this bit has to be changed to a few users from seed.ts for the lecturer
+    /**
+    const getAllUsers = async () => {
+        const response = await UserService.getUsers();
+        setError("")
+        if (!response.ok) {
+            setError(response.statusText);
+        } else {
+            const users = await response.json()
+            setUsers(users);
+        }
+    }
+     *
+     */
 
     const { t } = useTranslation();
 
@@ -53,7 +77,9 @@ const Home: React.FC = () => {
                         {t("home.button")}
                     </button>
                 )}
-                
+                {users && (
+                    <><h2>Testing users</h2><UserTestingTable users={users} /></>
+                )}
                 <PopUp 
                     trigger={showPopup}
                     setTrigger={setShowPopup}
