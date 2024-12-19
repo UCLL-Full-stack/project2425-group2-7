@@ -3,6 +3,7 @@ import Header from "@components/header";
 import UserLoginForm from "@components/user/UserLoginForm";
 import User_registrationForm from "@components/user/User_registrationForm";
 import { useState } from "react";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const Login: React.FC = () => {
     const [showRegistration, setShowRegistration] = useState(false);
@@ -39,5 +40,15 @@ const Login: React.FC = () => {
         </>
     );
 };
+
+export const getServerSideProps = async(context: { locale: any; }) =>{
+    const {locale} = context
+    return{
+        props:{
+            ...(await serverSideTranslations(locale ?? "en", ["common"]))
+        },
+    };
+};
+
 
 export default Login;
