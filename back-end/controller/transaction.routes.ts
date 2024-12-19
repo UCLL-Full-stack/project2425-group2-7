@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response, NextFunction } from 'express';
 import transactionService from '../service/transaction.service';
 import {TransactionInput} from "../types";
 
@@ -102,12 +102,12 @@ const transactionRouter = express.Router();
  *               items:
  *                 $ref: '#/components/schemas/Transaction'
  */
-transactionRouter.get('/', async (req: express.Request, res: express.Response) => {
+transactionRouter.get('/', async (req: express.Request, res: express.Response, next) => {
     try {
         const transactions = await transactionService.getAllTransactions();
         res.status(200).json(transactions);
     } catch(error) {
-        throw new Error("Could not catch object in controller: " + error)
+        next(error)
     }
 })
 
@@ -133,14 +133,14 @@ transactionRouter.get('/', async (req: express.Request, res: express.Response) =
  *
  */
 // input is the ID of cars and customers, NOT the objects
-transactionRouter.post('/add', async (req: express.Request, res: express.Response) => {
+transactionRouter.post('/add', async (req: express.Request, res: express.Response, next) => {
     try {
         const transaction = <TransactionInput>req.body;
         const result = await transactionService.addTransaction(transaction);
         res.status(200).json(result);
     } catch(error) {
         console.log(error);
-        throw new Error("Could not catch object in controller: " + error)
+        next(error)
     }
 })
 

@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response, NextFunction } from 'express';
 import customerService from '../service/customer.service';
 
 /**
@@ -95,12 +95,12 @@ const customerRouter = express.Router();
  *               items:
  *                 $ref: '#/components/schemas/Customer'
  */
-customerRouter.get('/', async (req: express.Request, res: express.Response) => {
+customerRouter.get('/', async (req: express.Request, res: express.Response, next) => {
     try {
         const customers = await customerService.getAllCustomers();
         res.status(200).json(customers);
     } catch(error) {
-        throw new Error("Could not catch object in controller")
+        next(error)
     }
 })
 
@@ -123,13 +123,13 @@ customerRouter.get('/', async (req: express.Request, res: express.Response) => {
  *             schema:
  *               $ref: '#/components/schemas/Customer'
  */
-customerRouter.get('/:id', async (req: express.Request, res: express.Response) => {
+customerRouter.get('/:id', async (req: express.Request, res: express.Response, next) => {
     try {
         const id = parseInt(req.params.id);
         const customer = await customerService.getCustomerByUserId(id);
         res.status(200).json(customer);
     }catch(error) {
-        throw new Error("Could not catch object in controller: " + error)
+        next(error)
     }
 })
 
