@@ -20,9 +20,19 @@ const addAppointment = async (input: AppointmentInput) => {
     })
 }
 
+const getAppointments = async () => {
+    return await fetch(process.env.NEXT_PUBLIC_API_URL + "/appointment", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+}
+
 const appointmentService = {
     getAdmins,
     addAppointment,
+    getAppointments,
 }
 
 export default appointmentService;

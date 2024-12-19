@@ -131,29 +131,46 @@ a:hover {
 }
 @layer base {
     h1 {
-        @apply text-center text-indigo-800 text-3xl
+        @apply text-center text-indigo-900 text-4xl font-extrabold tracking-tight mb-8;
+        font-family: 'Inter', sans-serif;
     }
 
     h2,
     h3 {
-        @apply px-6 text-indigo-800 text-xl pt-6
+        @apply text-indigo-900 text-2xl font-semibold mt-8 mb-4;
+        font-family: 'Inter', sans-serif;
     }
 
+    /* Styling the table */
+    table {
+        @apply w-full bg-white rounded-lg shadow-md overflow-hidden text-sm border-separate;
+        border-spacing: 0 8px;
+    }
+
+    /* Table headers */
     thead tr {
-        @apply px-6 py-3 text-left
+        @apply bg-indigo-600 text-white uppercase text-xs font-semibold tracking-wide;
     }
 
+    /* Styling the table rows */
     tbody tr {
-        @apply border-b even:bg-gray-100 hover:bg-gray-200
+        @apply border-b border-gray-200 hover:bg-indigo-50 transition duration-300 ease-in-out;
     }
 
+    /* Table cells */
     td,
     th {
-        @apply px-6 py-3
+        @apply px-6 py-4 text-left font-medium text-gray-700;
     }
 
-    table {
-        @apply text-sm
+    /* Add alternating row colors for better readability */
+    tbody tr:nth-child(even) {
+        @apply bg-gray-50;
+    }
+
+    /* Add hover effects for rows */
+    tbody tr:hover {
+        @apply bg-indigo-100;
     }
 
     .customDatePickerWidth,

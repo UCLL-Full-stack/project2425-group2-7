@@ -2,12 +2,13 @@ import Head from "next/head";
 import Header from "@components/header";
 import React, {useEffect, useState} from "react";
 import AppointmentMaker from "@components/appointment/AppointmentMaker";
-import {Admin} from "@types";
+import {Admin, Appointment} from "@types";
 import AppointmentService from "@services/AppointmentService";
 
 const Appointment: React.FC = () => {
     const [admins, setAdmins] = useState<Array<Admin>>([]);
     const [error, setError] = useState<string>();
+    const [appointments, setAppointments] = useState<Array<Appointment>>([]);
 
     const getAllAdmins = async () => {
         setError("")
@@ -21,10 +22,23 @@ const Appointment: React.FC = () => {
         }
     }
 
+    const getAllAppointments = async () => {
+        setError("")
+        const response = await AppointmentService.getAppointments();
+
+        if (!response.ok) {
+            setError(response.statusText);
+        } else {
+            const appointments = await response.json();
+            setAppointments(appointments);
+        }
+    }
+
     useEffect(() => {
         getAllAdmins();
+        getAllAppointments();
 
-    }, [admins]);
+    }, []);
 
     return (
         <>
@@ -36,7 +50,7 @@ const Appointment: React.FC = () => {
                 <p className="text-lg mb-4">
                     View all your appointments
                 </p>
-                <AppointmentMaker admins={admins}/>
+                <AppointmentMaker admins={admins} appointments={appointments} />
             </main>
         </>
     )

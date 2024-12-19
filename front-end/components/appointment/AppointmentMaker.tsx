@@ -1,12 +1,12 @@
 import {useEffect, useState} from "react";
-import {Admin, Customer, Appointment as Appointment} from "@types";
+import {Admin, Customer, Appointment} from "@types";
 import customerService from "@services/CustomerService";
 import appointmentService from "@services/AppointmentService";
 interface Props {
     admins: Admin[]
-    //appointments: Appointment[]
+    appointments: Appointment[]
 }
-const AppointmentMaker: React.FC<Props> = ({admins}) => {
+const AppointmentMaker: React.FC<Props> = ({admins, appointments}) => {
     // if logged in user is customer, show form, else show appointment overview
 
     const [key, setKey] = useState("");
@@ -39,6 +39,7 @@ const AppointmentMaker: React.FC<Props> = ({admins}) => {
         const role = JSON.parse(sessionStorage.getItem("loggedInUser") || "{}")?.role;
         const loggedInId = JSON.parse(sessionStorage.getItem("loggedInUser") || "{}")?.id;
         const css = window.sessionStorage.getItem("loggedInUser");
+        console.log(role)
         setKey(css!)
         setRole(role)
         setLoggedInId(loggedInId)
@@ -106,7 +107,34 @@ const AppointmentMaker: React.FC<Props> = ({admins}) => {
                 </button>
             </form>
         </div>
-    ) : <div id="appointmentOverview"></div>
+    ) : role == "ADMIN" ? <div id="appointmentOverview">
+            <table>
+                <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Admins</th>
+                    <th>Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                {appointments.map((appointment, index) => (
+                    <tr key={index}>
+                        <td>{appointment.customers.map((customer) => (
+                            <span key={customer.id} className="block">
+                            {customer.user.firstName} {customer.user.lastName}
+                            </span>
+                        ))}</td>
+                        <td>{appointment.date.valueOf()}</td>
+                        <td>{appointment.admins.map((admin) => (
+                            <span key={admin.id} className="block">
+                            {admin.user.firstName} {admin.user.lastName}
+                            </span>
+                        ))}</td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+    </div> : null
 }
 
 export default AppointmentMaker;
