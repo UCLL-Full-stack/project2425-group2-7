@@ -1,6 +1,7 @@
 {
   "private": true,
   "scripts": {
+    "test": "jest",
     "dev": "next dev -p 8080",
     "build": "next build",
     "start": "npm run dev"
