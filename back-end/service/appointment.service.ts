@@ -62,9 +62,9 @@ const addAppointment = async(appointmentInput: AppointmentInput): Promise<Appoin
 
 }
 
-const deleteAppointment = async(deleteAppointmentInput: DeleteAppointmentInput) => {
+const deleteAppointment = async(id: number) => {
     try {
-        const appointment = await appointmentDb.deleteAppointment(deleteAppointmentInput);
+        const appointment = await appointmentDb.deleteAppointment(id);
         if (!appointment) {
             throw new Error("Appointment not found")
         }

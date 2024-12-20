@@ -2,8 +2,9 @@ import Head from "next/head";
 import Header from "@components/header";
 import React, {useEffect, useState} from "react";
 import AppointmentMaker from "@components/appointment/AppointmentMaker";
-import {Admin, Appointment} from "@types";
+import {Admin, Appointment, DeleteAppointmentInput} from "@types";
 import AppointmentService from "@services/AppointmentService";
+import appointmentService from "@services/AppointmentService";
 
 const Appointment: React.FC = () => {
     const [admins, setAdmins] = useState<Array<Admin>>([]);
@@ -21,6 +22,15 @@ const Appointment: React.FC = () => {
             setAdmins(admins);
         }
     }
+
+    const handleDelete = async ( id: DeleteAppointmentInput) => {
+        const response = await appointmentService.deleteAppointmentById(id);
+        if (!response.ok) {
+            setError(response.statusText);
+        }
+        await getAllAppointments();
+    }
+
 
     const getAllAppointments = async () => {
         setError("")
@@ -50,7 +60,7 @@ const Appointment: React.FC = () => {
                 <p className="text-lg mb-4">
                     View all your appointments
                 </p>
-                <AppointmentMaker admins={admins} appointments={appointments} />
+                <AppointmentMaker admins={admins} appointments={appointments} onDelete={handleDelete}/>
             </main>
         </>
     )

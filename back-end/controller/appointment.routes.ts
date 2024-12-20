@@ -165,9 +165,9 @@ appointmentRouter.post('/add_appointment', async (req: express.Request, res: exp
  *         description: Appointment not found
  */
 
-appointmentRouter.delete('/delete_appointment', async (req: express.Request, res: express.Response, next) => {
+appointmentRouter.delete('/delete_appointment/:id', async (req: express.Request, res: express.Response, next) => {
     try {
-        const appointmentInputDelete = req.body as DeleteAppointmentInput;
+        const appointmentInputDelete = parseInt(req.params.id);
         const result = await appointmentService.deleteAppointment(appointmentInputDelete);
         res.status(200).json(result);
     } catch(error) {

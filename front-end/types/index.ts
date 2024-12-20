@@ -60,6 +60,10 @@ export type User = { // to be used for fetching
     password: string;
     role: Role;
 }
+
+export type DeleteAppointmentInput = {
+    id: number;
+}
 export type UserInput = { // to be used for input
     username: string;
     firstName: string;

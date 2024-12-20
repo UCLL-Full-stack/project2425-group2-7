@@ -1,4 +1,4 @@
-import {AppointmentInput} from "@types";
+import {AppointmentInput, DeleteAppointmentInput} from "@types";
 
 const getAdmins = async () => {
     return await fetch(process.env.NEXT_PUBLIC_API_URL + "/admins", {
@@ -29,13 +29,12 @@ const getAppointments = async () => {
     })
 }
 
-const deleteAppointmentById = async (id: number) => {
-    return await fetch(process.env.NEXT_PUBLIC_API_URL + "/appointment/delete_appointment", {
+const deleteAppointmentById = async ({id}: DeleteAppointmentInput) => {
+    return await fetch(process.env.NEXT_PUBLIC_API_URL + `/appointment/delete_appointment/${id}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(id),
     })
 }
 
