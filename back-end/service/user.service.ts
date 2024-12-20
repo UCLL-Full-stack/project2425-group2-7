@@ -5,7 +5,7 @@ import {AuthenticationResponse, UserInputLogin, UserInputRegister} from "../type
 import jwt from '../util/jwt';
 
 import bcrypt from "bcrypt";
-import customersDb from "../repository/customers.db";
+
 import adminDb from "../repository/admin.db";
 
 const getAllUsers = async (): Promise<User[]> => {
