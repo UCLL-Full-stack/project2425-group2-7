@@ -1,14 +1,27 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { test, beforeEach } from 'node:test';
-import '@testing-library/jest-dom/extend-expect';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import CarsOverviewTable from '@components/cars/CarsOverview';
-import { Car } from '@types';
+import React from 'react';
 
 
+jest.mock('@components/cars/CarFilter', () => {
+  return function MockCarFilter({ onFilterChange }: { onFilterChange: (filter: any) => void }) {
+    return (
+      <div data-testid="car-filter">
+        <button 
+          onClick={() => onFilterChange({ field: 'brand', value: 'BMW' })}
+          data-testid="apply-filter"
+        >
+          Filter
+        </button>
+      </div>
+    );
+  };
+});
 
-const mockCars: Car[] = [
+const mockCars = [
   {
-    chassisNumber: 123,
+    chassisNumber: 123,  
     brand: "BMW",
     model: "M3",
     condition: "new",
@@ -25,48 +38,69 @@ const mockCars: Car[] = [
   }
 ];
 
-beforeEach(() => {
-  sessionStorage.clear();
-});
+describe('CarsOverviewTable', () => {
+  beforeEach(() => {
+    sessionStorage.clear();
+  });
 
-test('shows login message when no token is present', () => {
-  render(<CarsOverviewTable cars={mockCars} />);
+  it('shows login message when no token is present', () => {
+    render(<CarsOverviewTable cars={mockCars} />);
+    expect(screen.getByText(/you cannot access this page/i)).toBeInTheDocument();
+  });
 
-    expect(screen.getByText('You cannot access this page. Please login first')).toBeInTheDocument();
-});
+  it('renders table when token is present', () => {
+    sessionStorage.setItem('loggedInUser', JSON.stringify({ token: 'mock-token' }));
+    render(<CarsOverviewTable cars={mockCars} />);
+    
+    // Check headers
+    expect(screen.getByText(/chassis number/i)).toBeInTheDocument();
+    expect(screen.getByText(/brand/i)).toBeInTheDocument();
+    expect(screen.getByText(/model/i)).toBeInTheDocument();
 
-test('renders table when token is present', () => {
-  sessionStorage.setItem('loggedInUser', JSON.stringify({ token: 'mock-token' }));
-  render(<CarsOverviewTable cars={mockCars} />);
-  
-  expect(screen.getByText('Chassis Number')).toBeInTheDocument();
-  expect(screen.getByText('Brand')).toBeInTheDocument();
-  expect(screen.getByText('Model')).toBeInTheDocument();
-  expect(screen.getByText('123')).toBeInTheDocument();
-  expect(screen.getByText('BMW')).toBeInTheDocument();
-  expect(screen.getByText('M3')).toBeInTheDocument();
-});
+    // Check data
+    expect(screen.getByText('123')).toBeInTheDocument();
+    expect(screen.getByText('BMW')).toBeInTheDocument();
+    expect(screen.getByText('M3')).toBeInTheDocument();
+  });
 
-test('handles empty cars array', () => {
-  sessionStorage.setItem('loggedInUser', JSON.stringify({ token: 'mock-token' }));
-  render(<CarsOverviewTable cars={[]} />);
-  
-  expect(screen.getByText('Chassis Number')).toBeInTheDocument();
-  expect(screen.queryByText('123')).not.toBeInTheDocument();
-});
+  it('handles empty cars array', () => {
+    sessionStorage.setItem('loggedInUser', JSON.stringify({ token: 'mock-token' }));
+    render(<CarsOverviewTable cars={[]} />);
+    
+    // Headers should still be present
+    expect(screen.getByText(/chassis number/i)).toBeInTheDocument();
+    
+    // Data should not be present
+    expect(screen.queryByText('123')).not.toBeInTheDocument();
+    expect(screen.queryByText('BMW')).not.toBeInTheDocument();
+  });
 
-test('filters cars when filter is applied', () => {
-  sessionStorage.setItem('loggedInUser', JSON.stringify({ token: 'mock-token' }));
-  render(<CarsOverviewTable cars={mockCars} />);
+  it('filters cars when filter is applied', async () => {
+    sessionStorage.setItem('loggedInUser', JSON.stringify({ token: 'mock-token' }));
+    render(<CarsOverviewTable cars={mockCars} />);
 
-  // Initially both cars should be visible
-  expect(screen.getByText('BMW')).toBeInTheDocument();
-  expect(screen.getByText('Audi')).toBeInTheDocument();
+    // Initial state - both cars should be visible
+    expect(screen.getByText('BMW')).toBeInTheDocument();
+    expect(screen.getByText('Audi')).toBeInTheDocument();
 
-  // Trigger filter
-  fireEvent.click(screen.getByTestId('filter-button'));
+    // Apply filter
+    const filterButton = screen.getByTestId('apply-filter');
+    filterButton.click();
 
-  // After filtering, only BMW should be visible
-  expect(screen.getByText('BMW')).toBeInTheDocument();
-  expect(screen.queryByText('Audi')).not.toBeInTheDocument();
+    // After filter - only BMW should be visible
+    expect(screen.getByText('BMW')).toBeInTheDocument();
+    expect(screen.queryByText('Audi')).not.toBeInTheDocument();
+  });
+
+  it('handles invalid token in sessionStorage', () => {
+    sessionStorage.setItem('loggedInUser', 'invalid-json');
+    render(<CarsOverviewTable cars={mockCars} />);
+    expect(screen.getByText(/you cannot access this page/i)).toBeInTheDocument();
+  });
+
+  it('handles missing token property in sessionStorage', () => {
+    sessionStorage.setItem('loggedInUser', JSON.stringify({}));
+    render(<CarsOverviewTable cars={mockCars} />);
+    expect(screen.getByText(/you cannot access this page/i)).toBeInTheDocument();
+  });
 });
