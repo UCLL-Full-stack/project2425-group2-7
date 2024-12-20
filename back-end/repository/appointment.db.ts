@@ -66,12 +66,12 @@ const addAppointment = async (date: Date, customer: Customer, admins: Admin[]): 
 }
 
 // delete appointment
-const deleteAppointment = async(deleteAppointmentInput: DeleteAppointmentInput): Promise<Appointment> => {
+const deleteAppointment = async(id: number): Promise<Appointment> => {
     try {
-        console.log(deleteAppointmentInput.id);
+        console.log(id);
         const appointmentPrisma = await database.appointment.delete({
             where: {
-                id: deleteAppointmentInput.id
+                id: id
             },
             include: {
                 customers: {
@@ -92,7 +92,7 @@ const deleteAppointment = async(deleteAppointmentInput: DeleteAppointmentInput):
         return Appointment.from(appointmentPrisma);
     }catch(error) {
         console.log(error)
-        console.log(deleteAppointmentInput.id);
+        console.log(id);
         throw error;
     }
 }

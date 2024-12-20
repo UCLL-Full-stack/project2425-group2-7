@@ -59,10 +59,11 @@ const Home: React.FC = () => {
         <>
             <Head>
                 <title>Car Dealer</title>
-                <meta name="description" content="Car dealer app" />
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <meta name="description" content="Car dealer app"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <script src="https://cdn.tailwindcss.com"></script>
             </Head>
-            <Header />
+            <Header/>
             <main className="container mx-auto px-4 py-8">
                 <h1 className="text-4xl font-bold mb-6">{t("home.header")}</h1>
                 <p className="text-lg text-gray-700 mb-8">
@@ -78,7 +79,7 @@ const Home: React.FC = () => {
                     </button>
                 )}
                 {users && (
-                    <><h2>Testing users</h2><UserTestingTable users={users} /></>
+                    <><UserTestingTable users={users} /></>
                 )}
                 <PopUp 
                     trigger={showPopup}

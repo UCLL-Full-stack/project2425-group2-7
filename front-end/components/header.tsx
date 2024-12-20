@@ -38,45 +38,79 @@ const Header: React.FC = () => {
     };
 
     return (
-        <header className="header">
-            <div className="header__logo">{t("header.logo")}</div>
-            <nav className="header__nav">
-                <Link href="/" className="header__link">
-                    {t("header.nav.home")}
-                </Link>
-                <Link href="/car_acquisition" className="header__link">
-                    {t("header.nav.cars")}
-                </Link>
-                {(loggedInUser) && <Link href={"/appointment"}>Appointment</Link>}
-                {(loggedInUser && userData?.role === 'ADMIN') && <Link href={"/trades"}>{t("header.nav.view_trades")}</Link>}
-                {(loggedInUser && userData?.role === 'CUSTOMER') &&
-                 <Link href="/trade-in" className="header__link">
-                    {t("header.nav.trade_in")}
-                </Link>}
-                {!loggedInUser && (
-                    <Link href="/login" className="header__link">
-                        {t("header.nav.login")}
-                    </Link>
-                )}
-                {loggedInUser && (
-                    <a
-                        href="#"
-                        className="header__link"
-                        onClick={handleLogout}
-                    >
-                        {t("header.nav.logout")}
-                    </a>
-                )}
-                {loggedInUser && (
-                    <div className="header__user">
-                        {t("header.nav.welcome")}
-                    </div>
-                )}
-                <Language />
+        <header className="bg-white shadow-md">
+            <div className="container mx-auto flex items-center justify-between px-6 py-4">
+                {/* Logo */}
+                <div className="text-lg font-semibold text-gray-800">
+                    {t("header.logo")}
+                </div>
 
-            </nav>
+                {/* Navigation */}
+                <nav className="flex items-center space-x-6">
+                    <Link
+                        href="/"
+                        className="px-3 py-2 rounded-md text-gray-600 hover:text-white hover:bg-blue-500 transition"
+                    >
+                        {t("header.nav.home")}
+                    </Link>
+                    <Link
+                        href="/car_acquisition"
+                        className="px-3 py-2 rounded-md text-gray-600 hover:text-white hover:bg-blue-500 transition"
+                    >
+                        {t("header.nav.cars")}
+                    </Link>
+                    {loggedInUser && (
+                        <Link
+                            href="/appointment"
+                            className="px-3 py-2 rounded-md text-gray-600 hover:text-white hover:bg-blue-500 transition"
+                        >
+                            Appointment
+                        </Link>
+                    )}
+                    {loggedInUser && userData?.role === "ADMIN" && (
+                        <Link
+                            href="/trades"
+                            className="px-3 py-2 rounded-md text-gray-600 hover:text-white hover:bg-blue-500 transition"
+                        >
+                            {t("header.nav.view_trades")}
+                        </Link>
+                    )}
+                    {loggedInUser && userData?.role === "CUSTOMER" && (
+                        <Link
+                            href="/trade-in"
+                            className="px-3 py-2 rounded-md text-gray-600 hover:text-white hover:bg-blue-500 transition"
+                        >
+                            {t("header.nav.trade_in")}
+                        </Link>
+                    )}
+                    {!loggedInUser && (
+                        <Link
+                            href="/login"
+                            className="px-3 py-2 rounded-md text-gray-600 hover:text-white hover:bg-blue-500 transition"
+                        >
+                            {t("header.nav.login")}
+                        </Link>
+                    )}
+                    {loggedInUser && (
+                        <a
+                            href="#"
+                            onClick={handleLogout}
+                            className="px-3 py-2 rounded-md text-gray-600 hover:text-white hover:bg-blue-500 transition"
+                        >
+                            {t("header.nav.logout")}
+                        </a>
+                    )}
+                    {loggedInUser && (
+                        <div className="text-gray-800 font-medium">
+                            {t("header.nav.welcome")}
+                        </div>
+                    )}
+                    <Language />
+                </nav>
+            </div>
         </header>
     );
+
 }
 
 export default Header;

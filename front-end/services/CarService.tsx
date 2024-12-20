@@ -1,13 +1,19 @@
 import {Car} from "@types";
 
-const getAllCars = async () => {
+/**
+ * when calling this function from the frontend pages, you also pass in a parameter token. after the parameter, add the
+ * Authorization: Bearer token
+ * to give it to the backend in the header (see car.routes.ts next)
+ * @param token
+ */
+const getAllCars = async (token: string) => {
     // const token = JSON.parse(sessionStorage.getItem("loggedInUser") || "{}")?.token;
     const apiUrl = process.env.NEXT_PUBLIC_API_URL + "/car_acquisition";
     return fetch(apiUrl, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            // Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
         }
     });
 }

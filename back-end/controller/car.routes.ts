@@ -73,9 +73,16 @@ const carRouter = express.Router();
  *               items:
  *                  $ref: '#/components/schemas/Car'
  */
+/**
+ * the backend, now having received a request with an Authorization header can get it from the request. The header is called
+ * auth, hence the auth keyword. below is how you extract the JWT token parts to pass it through to the service
+ * continue to service for more explanation
+ */
 carRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const cars = await carService.getAllCars();
+        const request = req as Request & {auth: {role: string, username: string};};
+        console.log(request.auth.role, request.auth.username)
+        const cars = await carService.getAllCars(request.auth.role);
         res.status(200).json(cars);
     } catch (error) {
         next(error);
