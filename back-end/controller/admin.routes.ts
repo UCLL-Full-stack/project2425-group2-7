@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response, NextFunction } from 'express';
 import adminService from "../service/admin.service";
 import {AdminInput} from "../types";
 
@@ -53,13 +53,13 @@ const adminRouter = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/Admin'
  */
-adminRouter.get('/', async (req, res) => {
+adminRouter.get('/', async (req, res, next) => {
     try {
         const admins = await adminService.getAllAdmins();
         res.status(200).json(admins);
     }catch(error) {
         console.log("Could not catch object in controller: " + error)
-        throw error;
+        next(error)
     }
 })
 /**
@@ -109,13 +109,13 @@ adminRouter.post('/add', async (req: express.Request, res: express.Response) => 
  *             schema:
  *               $ref: '#/components/schemas/Admin'
  */
-adminRouter.get('/:id', async (req: express.Request, res: express.Response) => {
+adminRouter.get('/:id', async (req: express.Request, res: express.Response, next) => {
     try {
         const admin = await adminService.getAdminByUserId(Number(req.params.id));
         res.status(200).json(admin);
     } catch(error) {
         console.log("Could not catch object in controller: " + error)
-        throw error;
+        next(error)
     }
 })
 

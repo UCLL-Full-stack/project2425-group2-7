@@ -19,44 +19,47 @@ const addAppointment = async(appointmentInput: AppointmentInput): Promise<Appoin
     // first look to see if the customer and admin exist
     // then see if date is in the future
     // then see if there is already an appointment for that day
-    let adminsToPush: Admin[] = [];
-    const admin = await adminDb.findAdminByUserId(appointmentInput.adminId);
-    console.log("Customer id in service: ", appointmentInput.customerId)
-    const customer = await customersDb.findCustomerById(appointmentInput.customerId);
+    try{
+        let adminsToPush: Admin[] = [];
+        const admin = await adminDb.findAdminByUserId(appointmentInput.adminId);
+        console.log("Customer id in service: ", appointmentInput.customerId)
+        const customer = await customersDb.findCustomerById(appointmentInput.customerId);
 
-    if (!admin) {
-        throw new Error("Admin not found")
-    }
-
-    if (!customer) {
-        throw new Error("Customer not found")
-    }
-    adminsToPush.push(admin)
-
-    // date validation
-    const inputDate = new Date(appointmentInput.date);
-    const appointments = await appointmentDb.getAllAppointments();
-    for (const appointment of appointments) {
-        if (
-            appointment.date.getFullYear() === inputDate.getFullYear() &&
-            appointment.date.getMonth() === inputDate.getMonth() &&
-            appointment.date.getDate() === inputDate.getDate()
-        ) {
-            throw new Error("Appointment already exists for that day")
+        if (!admin) {
+            throw new Error("Admin not found")
         }
-    }
 
-    // date future validation needs fixing
-    if (appointmentInput.date <= new Date()) {
-        throw new Error('The appointment date must be in the future.');
-    }
+        if (!customer) {
+            throw new Error("Customer not found")
+        }
+        adminsToPush.push(admin)
 
-    try {
+        // date validation
+        const inputDate = new Date(appointmentInput.date);
+        const appointments = await appointmentDb.getAllAppointments();
+        for (const appointment of appointments) {
+            if (
+                appointment.date.getFullYear() === inputDate.getFullYear() &&
+                appointment.date.getMonth() === inputDate.getMonth() &&
+                appointment.date.getDate() === inputDate.getDate()
+            ) {
+                throw new Error("Appointment already exists for that day")
+            }
+        }
+
+        // date future validation needs fixing
+        if (appointmentInput.date <= new Date()) {
+            throw new Error('The appointment date must be in the future.');
+        }
+
         return await appointmentDb.addAppointment(appointmentInput.date, customer, adminsToPush)
-    }catch(error) {
+    } catch (error) {
         console.log(error);
         throw error;
+
     }
+
+
 }
 
 const deleteAppointment = async(deleteAppointmentInput: DeleteAppointmentInput) => {

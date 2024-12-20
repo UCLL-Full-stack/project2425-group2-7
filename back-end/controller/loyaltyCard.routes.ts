@@ -44,12 +44,12 @@ const loyaltyCardRouter = express.Router();
  *               items:
  *                 $ref: '#/components/schemas/LoyaltyCard'
  */
-loyaltyCardRouter.get('/', async (req: Request, res: Response) => {
+loyaltyCardRouter.get('/', async (req: Request, res: Response, next) => {
     try {
         const loyaltyCards = await loyaltyCardService.getAllLoyaltyCards();
         res.status(200).json(loyaltyCards);
     } catch(error) {
-        throw new Error("Error catching loyaltyCards in router")
+        next(error)
     }
 })
 

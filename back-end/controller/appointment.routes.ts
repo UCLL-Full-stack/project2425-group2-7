@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response, NextFunction } from 'express';
 import AppointmentService from "../service/appointment.service";
 import {AppointmentInput, DeleteAppointmentInput, PutAdminToAppointmentInput} from "../types";
 import appointmentService from "../service/appointment.service";
@@ -96,13 +96,13 @@ const appointmentRouter = express.Router();
  *               $ref: '#/components/schemas/Appointment'
  *
  */
-appointmentRouter.get('/', async (req, res) => {
+appointmentRouter.get('/', async (req, res, next) => {
     try {
         const appointments = await AppointmentService.getAllAppointments();
         res.status(200).json(appointments);
     } catch (error) {
         console.log("Could not catch object in controller: " + error)
-        throw error;
+        next(error)
     }
 })
 
@@ -128,7 +128,7 @@ appointmentRouter.get('/', async (req, res) => {
  *                 $ref: '#/components/schemas/Appointment'
  */
 
-appointmentRouter.post('/add_appointment', async (req: express.Request, res: express.Response) => {
+appointmentRouter.post('/add_appointment', async (req: express.Request, res: express.Response,next) => {
     try {
         const appointmentInput = req.body as AppointmentInput;
         const result = await appointmentService.addAppointment(appointmentInput);
@@ -136,7 +136,7 @@ appointmentRouter.post('/add_appointment', async (req: express.Request, res: exp
         res.status(200).json(result);
     } catch(error) {
         console.log("Could not catch object in controller: " + error)
-        throw error;
+        next(error)
     }
 })
 
@@ -165,14 +165,14 @@ appointmentRouter.post('/add_appointment', async (req: express.Request, res: exp
  *         description: Appointment not found
  */
 
-appointmentRouter.delete('/delete_appointment', async (req: express.Request, res: express.Response) => {
+appointmentRouter.delete('/delete_appointment', async (req: express.Request, res: express.Response, next) => {
     try {
         const appointmentInputDelete = req.body as DeleteAppointmentInput;
         const result = await appointmentService.deleteAppointment(appointmentInputDelete);
         res.status(200).json(result);
     } catch(error) {
         console.log("Could not catch object in controller: " + error)
-        throw error;
+        next(error)
     }
 })
 
@@ -200,14 +200,14 @@ appointmentRouter.delete('/delete_appointment', async (req: express.Request, res
  *       404:
  *         description: Appointment not found
  */
-appointmentRouter.put('/update_appointment', async (req: express.Request, res: express.Response) => {
+appointmentRouter.put('/update_appointment', async (req: express.Request, res: express.Response, next) => {
     try {
         const input = req.body as PutAdminToAppointmentInput;
         const result = await appointmentService.putAdminToAppointment(input)
         res.status(200).json(result);
     } catch (error) {
         console.log("Could not catch object in controller: " + error)
-        throw error;
+        next(error)
     }
 })
 export default appointmentRouter;
