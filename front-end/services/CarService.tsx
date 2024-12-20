@@ -6,14 +6,15 @@ import {Car} from "@types";
  * to give it to the backend in the header (see car.routes.ts next)
  * @param token
  */
-const getAllCars = async (token: string) => {
+// token: string
+const getAllCars = async () => {
     // const token = JSON.parse(sessionStorage.getItem("loggedInUser") || "{}")?.token;
     const apiUrl = process.env.NEXT_PUBLIC_API_URL + "/car_acquisition";
     return fetch(apiUrl, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            // Authorization: `Bearer ${token}`,
         }
     });
 }

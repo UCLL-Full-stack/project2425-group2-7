@@ -14,11 +14,6 @@ const Cars: React.FC = () => {
     const [buttonPopUp, setButtonPopup] = useState(false);
     const [filteredCars, setFilteredCars] = useState<Array<Car>>([]);
 
-    /**
-     * get the token from the JWT token in the session storage
-     */
-    const token = JSON.parse(sessionStorage.getItem("loggedInUser")!).token
-
 
     useEffect(() => {
         setFilteredCars(cars);
@@ -26,10 +21,7 @@ const Cars: React.FC = () => {
 
     const getAllCars = async () => {
         setError("");
-        /**
-         * when calling getAllCars from CarService.tsx pass in the token that you got from sessionStorage
-         */
-        const response = await CarService.getAllCars(token);
+        const response = await CarService.getAllCars();
 
         if (!response.ok) {
             setError(response.statusText);

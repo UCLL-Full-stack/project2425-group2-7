@@ -16,26 +16,31 @@ const Login: React.FC = () => {
             <Header />
             <main>
                 <section className="p-6 min-h-screen flex flex-col items-center">
-                    <UserLoginForm />
+                    {!showRegistration ? (
+                        <>
+                            <UserLoginForm />
+                            <section className="text-center pb-6">
+                                <p>Not yet a user? 
+                                    <a 
+                                        href="#" 
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setShowRegistration(true);
+                                        }}
+                                        className="text-blue-600 hover:text-blue-800 ml-1"
+                                    >
+                                        create user
+                                    </a>
+                                </p>
+                            </section>
+                        </>
+                    ) : (
+                        <User_registrationForm 
+                            isOpen={showRegistration} 
+                            onClose={() => setShowRegistration(false)}
+                        />
+                    )}
                 </section>
-                <section className="text-center pb-6">
-                    <p>Not yet a user? 
-                        <a 
-                            href="#" 
-                            onClick={(e) => {
-                                e.preventDefault();
-                                setShowRegistration(true);
-                            }}
-                            className="text-blue-600 hover:text-blue-800 ml-1"
-                        >
-                            create user
-                        </a>
-                    </p>
-                </section>
-                <User_registrationForm 
-                    isOpen={showRegistration} 
-                    onClose={() => setShowRegistration(false)}
-                />
             </main>
         </>
     );
@@ -49,6 +54,5 @@ export const getServerSideProps = async(context: { locale: any; }) =>{
         },
     };
 };
-
 
 export default Login;

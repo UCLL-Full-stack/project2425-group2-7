@@ -78,11 +78,13 @@ const carRouter = express.Router();
  * auth, hence the auth keyword. below is how you extract the JWT token parts to pass it through to the service
  * continue to service for more explanation
  */
+// request.auth.role
+// // const request = req as Request & {auth: {role: string, username: string};};
+        // console.log(request.auth.role, request.auth.username)
 carRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const request = req as Request & {auth: {role: string, username: string};};
-        console.log(request.auth.role, request.auth.username)
-        const cars = await carService.getAllCars(request.auth.role);
+        
+        const cars = await carService.getAllCars();
         res.status(200).json(cars);
     } catch (error) {
         next(error);
