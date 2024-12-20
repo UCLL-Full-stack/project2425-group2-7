@@ -1,5 +1,6 @@
 import adminDb from "../repository/admin.db";
 import userDb from "../repository/user.db";
+import database from "../util/databsae";
 
 const getAllAdmins = async () => {
     return await adminDb.getAllAdmins();

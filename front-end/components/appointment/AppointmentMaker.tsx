@@ -118,7 +118,7 @@ const AppointmentMaker: React.FC<Props> = ({admins, appointments}) => {
                 </thead>
                 <tbody>
                 {appointments.map((appointment, index) => (
-                    <tr key={index}>
+                    <tr key={appointment.id}>
                         <td>{appointment.customers.map((customer) => (
                             <span key={customer.id} className="block">
                             {customer.user.firstName} {customer.user.lastName}

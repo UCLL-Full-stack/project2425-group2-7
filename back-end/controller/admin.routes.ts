@@ -62,6 +62,7 @@ adminRouter.get('/', async (req, res, next) => {
         next(error)
     }
 })
+
 /**
  * @swagger
  * /admins/add:
