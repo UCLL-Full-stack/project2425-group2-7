@@ -4,7 +4,7 @@ import React, {useEffect, useState} from "react";
 import AppointmentMaker from "@components/appointment/AppointmentMaker";
 import {Admin, Appointment} from "@types";
 import AppointmentService from "@services/AppointmentService";
-
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 const Appointment: React.FC = () => {
     const [admins, setAdmins] = useState<Array<Admin>>([]);
     const [error, setError] = useState<string>();
@@ -54,6 +54,14 @@ const Appointment: React.FC = () => {
             </main>
         </>
     )
-}
 
+}
+export const getServerSideProps = async(context: { locale: any; }) =>{
+    const {locale} = context
+    return{
+        props:{
+            ...(await serverSideTranslations(locale ?? "en", ["common"]))
+        },
+    };
+};
 export default Appointment;
