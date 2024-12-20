@@ -1,19 +1,22 @@
 import {useEffect, useState} from "react";
-import {Admin, Customer, Appointment} from "@types";
+import {Admin, Customer, Appointment, DeleteAppointmentInput, PutAdminToAppointmentInput} from "@types";
 import customerService from "@services/CustomerService";
 import appointmentService from "@services/AppointmentService";
 interface Props {
     admins: Admin[]
     appointments: Appointment[]
+    onDelete: (id: DeleteAppointmentInput) => void | Promise<void>
+    onUpdate: ({adminId, appointmentId}: PutAdminToAppointmentInput) => void | Promise<void>
 }
-const AppointmentMaker: React.FC<Props> = ({admins, appointments}) => {
+const AppointmentMaker: React.FC<Props> = ({admins, appointments, onDelete, onUpdate}) => {
     // if logged in user is customer, show form, else show appointment overview
 
-    const [key, setKey] = useState("");
     const [adminId, setAdminId] = useState("");
     const [date, setDate] = useState("");
     const [role, setRole] = useState("");
     const [loggedInId, setLoggedInId] = useState("");
+    const [error, setError] = useState<string>();
+    const [appointmentAddError, setAppointmentAddError] = useState<string>();
 
     // prevent submitting from reloading the page
     // when submitting it has to look for the customer by ID, admin by name -> extract ID
@@ -23,8 +26,7 @@ const AppointmentMaker: React.FC<Props> = ({admins, appointments}) => {
         const response = await customerService.findCustomerByUserId(parseInt(loggedInId)); // NEEDS ID <- USERID
         const customer = await response.json()
         console.log(customer);
-
-        console.log("adminid",adminId, role, "UUUUUUUUUUUUUUUUUUSEEEEEEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRRRRRRRRR",loggedInId);
+        console.log("adminid", adminId, role, "UUUUUUUUUUUUUUUUUUSEEEEEEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRRRRRRRRR", loggedInId);
         const appointmentResponse = await appointmentService.addAppointment({
             adminId: parseInt(adminId),
             date: new Date(date),
@@ -32,23 +34,33 @@ const AppointmentMaker: React.FC<Props> = ({admins, appointments}) => {
         })
         alert("appointment created")
 
+        if (!appointmentResponse.ok) {
+            setAppointmentAddError("There is already an appointment for that day")
+        } else {
+            setAppointmentAddError("")
+        }
 
+        // alert cause the appointmentresponse doesnt want to show lol
 
     };
+
+    /**
+     * delete an appointment by ID is a function in the parent component thats being run here by onDelete
+     * @param id
+     */
 
     useEffect(() => {
         const role = JSON.parse(sessionStorage.getItem("loggedInUser") || "{}")?.role;
         const loggedInId = JSON.parse(sessionStorage.getItem("loggedInUser") || "{}")?.id;
-        const css = window.sessionStorage.getItem("loggedInUser");
         console.log(role)
-        setKey(css!)
+        setError("");
         setRole(role)
         setLoggedInId(loggedInId)
     }, []);
 
     // if role is customer return a form else return a list of appointments in a table
 
-    return role == "CUSTOMER" ? (
+    return role == "CUSTOMER" && error == ""? (
         <div
             id="appointmentMaker"
             className="flex justify-center items-center min-h-screen bg-gray-100"
@@ -106,35 +118,59 @@ const AppointmentMaker: React.FC<Props> = ({admins, appointments}) => {
                 >
                     Submit
                 </button>
+            {appointmentAddError && <p className="text-red-500 mt-2">{appointmentAddError}</p>}
             </form>
         </div>
     ) : role == "ADMIN" ? <div id="appointmentOverview">
-            <table>
-                <thead>
-                <tr>
-                    <th>Customer</th>
-                    <th>Admins</th>
-                    <th>Date</th>
-                </tr>
-                </thead>
-                <tbody>
-                {appointments.map((appointment, index) => (
-                    <tr key={index}>
-                        <td>{appointment.customers.map((customer) => (
+
+        <table className="min-w-full table-auto border-collapse border border-gray-200 shadow-md rounded-md">
+            <thead className="bg-gray-100 text-gray-700 text-left">
+            <tr>
+                <th className="px-4 py-2 border-b">Customer</th>
+                <th className="px-4 py-2 border-b">Admins</th>
+                <th className="px-4 py-2 border-b">Date</th>
+                <th className="px-4 py-2 border-b"></th>
+                <th className="px-4 py-2 border-b"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {appointments.map((appointment) => (
+                <tr key={appointment.id} className="hover:bg-gray-50">
+                    <td className="px-4 py-2 border-b">
+                        {appointment.customers.map((customer) => (
                             <span key={customer.id} className="block">
-                            {customer.user.firstName} {customer.user.lastName}
-                            </span>
-                        ))}</td>
-                        <td>{appointment.date.valueOf()}</td>
-                        <td>{appointment.admins.map((admin) => (
+              {customer.user.firstName} {customer.user.lastName}
+            </span>
+                        ))}
+                    </td>
+                    <td className="px-4 py-2 border-b">
+                        {appointment.admins.map((admin) => (
                             <span key={admin.id} className="block">
-                            {admin.user.firstName} {admin.user.lastName}
-                            </span>
-                        ))}</td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
+              {admin.user.firstName} {admin.user.lastName}
+            </span>
+                        ))}
+                    </td>
+                    <td className="px-4 py-2 border-b">{new Date(appointment.date).toLocaleString()}</td>
+                    <td className="px-4 py-2 border-b text-center">
+                        <button
+                            onClick={() => onDelete({id: appointment.id})}
+                            className="text-red-600 hover:text-red-800 font-medium"
+                        >
+                            Delete
+                        </button>
+                    </td>
+                    <td className="px-4 py-2 border-b text-center">
+                        <button
+                            onClick={() => onUpdate({appointmentId: appointment.id})}
+                            className="text-red-600 hover:text-red-800 font-medium"
+                        >
+                            Update
+                        </button>
+                    </td>
+                </tr>
+            ))}
+            </tbody>
+        </table>
     </div> : null
 }
 

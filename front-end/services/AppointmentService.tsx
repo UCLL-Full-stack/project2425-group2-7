@@ -1,4 +1,4 @@
-import {AppointmentInput} from "@types";
+import {AppointmentInput, DeleteAppointmentInput, PutAdminToAppointmentInput} from "@types";
 
 const getAdmins = async () => {
     return await fetch(process.env.NEXT_PUBLIC_API_URL + "/admins", {
@@ -29,10 +29,31 @@ const getAppointments = async () => {
     })
 }
 
+const deleteAppointmentById = async ({id}: DeleteAppointmentInput) => {
+    return await fetch(process.env.NEXT_PUBLIC_API_URL + `/appointment/delete_appointment/${id}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+}
+
+const putAdminToAppointment = async (input: PutAdminToAppointmentInput) => {
+    return await fetch(process.env.NEXT_PUBLIC_API_URL + "/appointment/update_appointment", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        }
+        , body: JSON.stringify(input),
+    })
+}
+
 const appointmentService = {
     getAdmins,
     addAppointment,
     getAppointments,
+    deleteAppointmentById,
+    putAdminToAppointment,
 }
 
 export default appointmentService;
