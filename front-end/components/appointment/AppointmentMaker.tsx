@@ -32,7 +32,6 @@ const AppointmentMaker: React.FC<Props> = ({admins, appointments, onDelete, onUp
             date: new Date(date),
             customerId: customer.id
         })
-        alert("appointment created")
 
         if (!appointmentResponse.ok) {
             setAppointmentAddError("There is already an appointment for that day")

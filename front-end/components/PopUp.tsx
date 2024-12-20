@@ -44,6 +44,7 @@ const PopUp: React.FC<{ trigger: boolean, setTrigger: (value: boolean) => void, 
                     
                     await CarService.addCar(carData);
                     props.setTrigger(false);
+
                 }}>Yes</button>
                 <button className="no-btn" onClick={()=>props.setTrigger(false)}>NO</button>
                 
