@@ -15,6 +15,7 @@ const AppointmentMaker: React.FC<Props> = ({admins, appointments, onDelete}) => 
     const [role, setRole] = useState("");
     const [loggedInId, setLoggedInId] = useState("");
     const [error, setError] = useState<string>();
+    const [appointmentAddError, setAppointmentAddError] = useState<string>();
 
     // prevent submitting from reloading the page
     // when submitting it has to look for the customer by ID, admin by name -> extract ID
@@ -24,12 +25,21 @@ const AppointmentMaker: React.FC<Props> = ({admins, appointments, onDelete}) => 
         const response = await customerService.findCustomerByUserId(parseInt(loggedInId)); // NEEDS ID <- USERID
         const customer = await response.json()
         console.log(customer);
-        console.log("adminid",adminId, role, "UUUUUUUUUUUUUUUUUUSEEEEEEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRRRRRRRRR",loggedInId);
+        console.log("adminid", adminId, role, "UUUUUUUUUUUUUUUUUUSEEEEEEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRRRRRRRRR", loggedInId);
         const appointmentResponse = await appointmentService.addAppointment({
             adminId: parseInt(adminId),
             date: new Date(date),
             customerId: customer.id
         })
+
+        if (!appointmentResponse.ok) {
+            setAppointmentAddError("There is already an appointment for that day")
+        } else {
+            setAppointmentAddError("")
+        }
+
+        // alert cause the appointmentresponse doesnt want to show lol
+
     };
 
     /**
@@ -106,6 +116,7 @@ const AppointmentMaker: React.FC<Props> = ({admins, appointments, onDelete}) => 
                 >
                     Submit
                 </button>
+            {appointmentAddError && <p className="text-red-500 mt-2">{appointmentAddError}</p>}
             </form>
         </div>
     ) : role == "ADMIN" ? <div id="appointmentOverview">

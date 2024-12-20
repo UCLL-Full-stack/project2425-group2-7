@@ -79,7 +79,7 @@ const Home: React.FC = () => {
                     </button>
                 )}
                 {users && (
-                    <><h2>Testing users</h2><UserTestingTable users={users} /></>
+                    <><UserTestingTable users={users} /></>
                 )}
                 <PopUp 
                     trigger={showPopup}
