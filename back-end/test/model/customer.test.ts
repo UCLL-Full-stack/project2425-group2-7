@@ -6,6 +6,12 @@ describe('CustomerHappy', () => {
             name: "Habibi",
             email: "habibi@example.com",
         });
+        return new Customer({
+                        id,
+                        user: User.from(user),
+                        loyaltyCard: undefined,
+                        cars: cars.map((car) => Car.from(car))
+                    });
 
         expect(customer.getCars()).toBe(undefined);
         expect(customer.getPurchaseHistory()).toEqual([]);
