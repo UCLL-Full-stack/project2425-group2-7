@@ -14,8 +14,8 @@ interface UserData {
   role: string;
 }
 const users: User[] = [
-    {id: 1000, password: "kong", username: "kong", email: "kong@", role: "ADMIN", firstName:"kong", lastName: "kong"},
-    {id: 2000, password: "wamie", username: "wamie", email: "wamie@", role: "CUSTOMER", firstName:"wamie", lastName: "wamie"}
+    {id: 1000, password: "admin123", username: "admin", email: "kong@", role: "ADMIN", firstName:"kong", lastName: "kong"},
+    {id: 2000, password: "love123", username: "Dodo", email: "wamie@", role: "CUSTOMER", firstName:"wamie", lastName: "wamie"}
 
 ]
 
