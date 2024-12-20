@@ -64,6 +64,11 @@ export type User = { // to be used for fetching
 export type DeleteAppointmentInput = {
     id: number;
 }
+
+export type PutAdminToAppointmentInput = {
+    adminId?: number;
+    appointmentId: number;
+}
 export type UserInput = { // to be used for input
     username: string;
     firstName: string;

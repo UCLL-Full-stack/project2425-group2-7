@@ -1,13 +1,14 @@
 import {useEffect, useState} from "react";
-import {Admin, Customer, Appointment, DeleteAppointmentInput} from "@types";
+import {Admin, Customer, Appointment, DeleteAppointmentInput, PutAdminToAppointmentInput} from "@types";
 import customerService from "@services/CustomerService";
 import appointmentService from "@services/AppointmentService";
 interface Props {
     admins: Admin[]
     appointments: Appointment[]
     onDelete: (id: DeleteAppointmentInput) => void | Promise<void>
+    onUpdate: ({adminId, appointmentId}: PutAdminToAppointmentInput) => void | Promise<void>
 }
-const AppointmentMaker: React.FC<Props> = ({admins, appointments, onDelete}) => {
+const AppointmentMaker: React.FC<Props> = ({admins, appointments, onDelete, onUpdate}) => {
     // if logged in user is customer, show form, else show appointment overview
 
     const [adminId, setAdminId] = useState("");
@@ -120,13 +121,15 @@ const AppointmentMaker: React.FC<Props> = ({admins, appointments, onDelete}) => 
             </form>
         </div>
     ) : role == "ADMIN" ? <div id="appointmentOverview">
+
         <table className="min-w-full table-auto border-collapse border border-gray-200 shadow-md rounded-md">
             <thead className="bg-gray-100 text-gray-700 text-left">
             <tr>
                 <th className="px-4 py-2 border-b">Customer</th>
                 <th className="px-4 py-2 border-b">Admins</th>
                 <th className="px-4 py-2 border-b">Date</th>
-                <th className="px-4 py-2 border-b">Action</th>
+                <th className="px-4 py-2 border-b"></th>
+                <th className="px-4 py-2 border-b"></th>
             </tr>
             </thead>
             <tbody>
@@ -153,6 +156,14 @@ const AppointmentMaker: React.FC<Props> = ({admins, appointments, onDelete}) => 
                             className="text-red-600 hover:text-red-800 font-medium"
                         >
                             Delete
+                        </button>
+                    </td>
+                    <td className="px-4 py-2 border-b text-center">
+                        <button
+                            onClick={() => onUpdate({appointmentId: appointment.id})}
+                            className="text-red-600 hover:text-red-800 font-medium"
+                        >
+                            Update
                         </button>
                     </td>
                 </tr>
