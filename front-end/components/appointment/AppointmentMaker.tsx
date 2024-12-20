@@ -9,11 +9,11 @@ interface Props {
 const AppointmentMaker: React.FC<Props> = ({admins, appointments}) => {
     // if logged in user is customer, show form, else show appointment overview
 
-    const [key, setKey] = useState("");
     const [adminId, setAdminId] = useState("");
     const [date, setDate] = useState("");
     const [role, setRole] = useState("");
     const [loggedInId, setLoggedInId] = useState("");
+    const [error, setError] = useState<string>();
 
     // prevent submitting from reloading the page
     // when submitting it has to look for the customer by ID, admin by name -> extract ID
@@ -23,31 +23,39 @@ const AppointmentMaker: React.FC<Props> = ({admins, appointments}) => {
         const response = await customerService.findCustomerByUserId(parseInt(loggedInId)); // NEEDS ID <- USERID
         const customer = await response.json()
         console.log(customer);
-
         console.log("adminid",adminId, role, "UUUUUUUUUUUUUUUUUUSEEEEEEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRRRRRRRRR",loggedInId);
         const appointmentResponse = await appointmentService.addAppointment({
             adminId: parseInt(adminId),
             date: new Date(date),
             customerId: customer.id
         })
-
-
-
     };
+
+    /**
+     * delete an appointment by ID
+     * @param id
+     */
+
+    const handleDelete = async ( id: number) => {
+        const response = await appointmentService.deleteAppointmentById(id);
+        if (!response.ok) {
+            setError(response.statusText);
+        }
+        const appointment = await response.json()
+    }
 
     useEffect(() => {
         const role = JSON.parse(sessionStorage.getItem("loggedInUser") || "{}")?.role;
         const loggedInId = JSON.parse(sessionStorage.getItem("loggedInUser") || "{}")?.id;
-        const css = window.sessionStorage.getItem("loggedInUser");
         console.log(role)
-        setKey(css!)
+        setError("");
         setRole(role)
         setLoggedInId(loggedInId)
     }, []);
 
     // if role is customer return a form else return a list of appointments in a table
 
-    return role == "CUSTOMER" ? (
+    return role == "CUSTOMER" && error == ""? (
         <div
             id="appointmentMaker"
             className="flex justify-center items-center min-h-screen bg-gray-100"
@@ -130,6 +138,7 @@ const AppointmentMaker: React.FC<Props> = ({admins, appointments}) => {
                             {admin.user.firstName} {admin.user.lastName}
                             </span>
                         ))}</td>
+                        <td onClick={() => {handleDelete(appointment.id)}}></td>
                     </tr>
                 ))}
                 </tbody>

@@ -29,10 +29,21 @@ const getAppointments = async () => {
     })
 }
 
+const deleteAppointmentById = async (id: number) => {
+    return await fetch(process.env.NEXT_PUBLIC_API_URL + "/appointment/delete_appointment", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(id),
+    })
+}
+
 const appointmentService = {
     getAdmins,
     addAppointment,
     getAppointments,
+    deleteAppointmentById,
 }
 
 export default appointmentService;
