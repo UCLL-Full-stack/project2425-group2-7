@@ -30,6 +30,14 @@ const port = process.env.APP_PORT || 3000;
 app.use(cors({origin: 'http://localhost:8080'}));
 app.use(bodyParser.json());
 
+app.use(
+    expressjwt({
+        secret: process.env.JWT_SECRET || 'default_secret',
+        algorithms: ['HS256'],
+    }).unless({
+        path: ['/api-docs',/^\/api-docs\/.*/, '/user/register', '/user/login'],
+    });
+
 app.use('/car_acquisition', carRouter);
 app.use('/customers', customerRouter);
 app.use('/transactions', transactionRouter);
