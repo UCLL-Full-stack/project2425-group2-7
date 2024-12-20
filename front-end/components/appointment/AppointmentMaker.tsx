@@ -30,6 +30,7 @@ const AppointmentMaker: React.FC<Props> = ({admins, appointments}) => {
             date: new Date(date),
             customerId: customer.id
         })
+        alert("appointment created")
 
 
 

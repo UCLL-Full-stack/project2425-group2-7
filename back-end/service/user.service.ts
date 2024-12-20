@@ -6,6 +6,7 @@ import jwt from '../util/jwt';
 import bcrypt from "bcrypt";
 
 import adminDb from "../repository/admin.db";
+import customersDb from "../repository/customers.db";
 
 const getAllUsers = async (): Promise<User[]> => {
     return await userDb.getAllUsers();
